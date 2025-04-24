@@ -1,0 +1,29 @@
+ ansible-playbook -i /etc/ansible/hosts os_upgrade_an2.yml -v
+Using /etc/ansible/ansible.cfg as config file
+
+PLAY [Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04] **************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [10.13.0.81]
+
+TASK [Check if reboot is required] ***************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "stat": {"exists": false}}
+
+TASK [Reboot if required] ************************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if lxd is installed] *****************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["dpkg", "-l", "lxd"], "delta": "0:00:00.015672", "end": "2025-04-24 17:46:41.390174", "failed_when_result": false, "msg": "non-zero return code", "rc": 1, "start": "2025-04-24 17:46:41.374502", "stderr": "dpkg-query: no packages found matching lxd", "stderr_lines": ["dpkg-query: no packages found matching lxd"], "stdout": "", "stdout_lines": []}
+
+TASK [Remove lxd package if installed] ***********************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if snapd is installed] ***************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["dpkg", "-l", "snapd"], "delta": "0:00:00.015850", "end": "2025-04-24 17:46:41.713053", "failed_when_result": false, "rc": 0, "start": "2025-04-24 17:46:41.697203", "stderr": "", "stderr_lines": [], "stdout": "Desired=Unknown/Install/Remove/Purge/Hold\n| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n||/ Name           Version      Architecture Description\n+++-==============-============-============-============================================\nrc  snapd          2.58+18.04.1 amd64        Daemon and tooling that enable snap packages", "stdout_lines": ["Desired=Unknown/Install/Remove/Purge/Hold", "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend", "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)", "||/ Name           Version      Architecture Description", "+++-==============-============-============-============================================", "rc  snapd          2.58+18.04.1 amd64        Daemon and tooling that enable snap packages"]}
+
+TASK [Remove snapd package if installed] *********************************************************************************
+[WARNING]: Updating cache and auto-installing missing dependency: python-apt
+fatal: [10.13.0.81]: FAILED! => {"changed": false, "cmd": "apt-get update", "msg": "appstreamcli: symbol lookup error: appstreamcli: undefined symbol: AS_APPSTREAM_METADATA_PATHS\nE: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh-cache > /dev/null; fi'\nE: Sub-process returned an error code", "rc": 100, "stderr": "appstreamcli: symbol lookup error: appstreamcli: undefined symbol: AS_APPSTREAM_METADATA_PATHS\nE: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh-cache > /dev/null; fi'\nE: Sub-process returned an error code\n", "stderr_lines": ["appstreamcli: symbol lookup error: appstreamcli: undefined symbol: AS_APPSTREAM_METADATA_PATHS", "E: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh-cache > /dev/null; fi'", "E: Sub-process returned an error code"], "stdout": "Get:1 http://10.13.0.88/ubuntu focal InRelease [265 kB]\nGet:2 http://10.13.0.88/ubuntu focal-updates InRelease [128 kB]\nGet:3 http://10.13.0.88/ubuntu focal-security InRelease [128 kB]\nHit:4 http://10.13.0.88:8080/ubuntu bionic InRelease\nHit:5 http://10.13.0.88:8080/ubuntu bionic-security InRelease\nHit:6 http://10.13.0.88:8080/ubuntu bionic-updates InRelease\nGet:7 https://packages.microsoft.com/ubuntu/20.04/prod focal InRelease [3632 B]\nFetched 524 kB in 1s (707 kB/s)\nReading package lists...\n", "stdout_lines": ["Get:1 http://10.13.0.88/ubuntu focal InRelease [265 kB]", "Get:2 http://10.13.0.88/ubuntu focal-updates InRelease [128 kB]", "Get:3 http://10.13.0.88/ubuntu focal-security InRelease [128 kB]", "Hit:4 http://10.13.0.88:8080/ubuntu bionic InRelease", "Hit:5 http://10.13.0.88:8080/ubuntu bionic-security InRelease", "Hit:6 http://10.13.0.88:8080/ubuntu bionic-updates InRelease", "Get:7 https://packages.microsoft.com/ubuntu/20.04/prod focal InRelease [3632 B]", "Fetched 524 kB in 1s (707 kB/s)", "Reading package lists..."]}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=4    changed=0    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0
