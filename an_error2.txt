@@ -1,0 +1,50 @@
+ansible-playbook -i /etc/ansible/hosts os_upgrade_an1.yml -v
+Using /etc/ansible/ansible.cfg as config file
+
+PLAY [Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04] **************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [10.13.0.81]
+
+TASK [Check if reboot is required] ***************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "stat": {"exists": false}}
+
+TASK [Reboot if required] ************************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if lxd is installed] *****************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["dpkg", "-l", "|", "grep", "-q", "lxd"], "delta": "0:00:00.016018", "end": "2025-04-24 17:28:31.458061", "failed_when_result": false, "msg": "non-zero return code", "rc": 1, "start": "2025-04-24 17:28:31.442043", "stderr": "dpkg-query: no packages found matching |\ndpkg-query: no packages found matching -q\ndpkg-query: no packages found matching lxd", "stderr_lines": ["dpkg-query: no packages found matching |", "dpkg-query: no packages found matching -q", "dpkg-query: no packages found matching lxd"], "stdout": "Desired=Unknown/Install/Remove/Purge/Hold\n| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n||/ Name           Version      Architecture Description\n+++-==============-============-============-=================================\nii  grep           3.1-2build1  amd64        GNU grep, egrep and fgrep", "stdout_lines": ["Desired=Unknown/Install/Remove/Purge/Hold", "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend", "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)", "||/ Name           Version      Architecture Description", "+++-==============-============-============-=================================", "ii  grep           3.1-2build1  amd64        GNU grep, egrep and fgrep"]}
+
+TASK [Remove lxd package if installed] ***********************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if snapd is installed] ***************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["dpkg", "-l", "|", "grep", "-q", "snapd"], "delta": "0:00:00.015670", "end": "2025-04-24 17:28:31.780290", "failed_when_result": false, "msg": "non-zero return code", "rc": 1, "start": "2025-04-24 17:28:31.764620", "stderr": "dpkg-query: no packages found matching |\ndpkg-query: no packages found matching -q", "stderr_lines": ["dpkg-query: no packages found matching |", "dpkg-query: no packages found matching -q"], "stdout": "Desired=Unknown/Install/Remove/Purge/Hold\n| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n||/ Name           Version      Architecture Description\n+++-==============-============-============-============================================\nii  grep           3.1-2build1  amd64        GNU grep, egrep and fgrep\nrc  snapd          2.58+18.04.1 amd64        Daemon and tooling that enable snap packages", "stdout_lines": ["Desired=Unknown/Install/Remove/Purge/Hold", "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend", "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)", "||/ Name           Version      Architecture Description", "+++-==============-============-============-============================================", "ii  grep           3.1-2build1  amd64        GNU grep, egrep and fgrep", "rc  snapd          2.58+18.04.1 amd64        Daemon and tooling that enable snap packages"]}
+
+TASK [Remove snapd package if installed] *********************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Clean up lxd residual files if packages were removed or residuals exist] *******************************************
+skipping: [10.13.0.81] => (item=/var/lib/lxd)  => {"ansible_loop_var": "item", "changed": false, "item": "/var/lib/lxd", "skip_reason": "Conditional result was False"}
+skipping: [10.13.0.81] => (item=/var/snap/lxd)  => {"ansible_loop_var": "item", "changed": false, "item": "/var/snap/lxd", "skip_reason": "Conditional result was False"}
+
+TASK [Get current OS release] ********************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["lsb_release", "-sr"], "delta": "0:00:00.030937", "end": "2025-04-24 17:28:32.186469", "rc": 0, "start": "2025-04-24 17:28:32.155532", "stderr": "", "stderr_lines": [], "stdout": "20.04", "stdout_lines": ["20.04"]}
+
+TASK [Configure apt sources for Ubuntu 20.04] ****************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Update package cache for 20.04] ************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Perform dist-upgrade for 20.04] ************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if reboot is required after dist-upgrade for 20.04] **********************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Reboot after dist-upgrade for 20.04 if required] *******************************************************************
+fatal: [10.13.0.81]: FAILED! => {"msg": "The conditional check 'reboot_required_dist_20_04.stat.exists and os_release.stdout == \"18.04\"' failed. The error was: error while evaluating conditional (reboot_required_dist_20_04.stat.exists and os_release.stdout == \"18.04\"): 'dict object' has no attribute 'stat'\n\nThe error appears to be in '/etc/ansible/playbook/os_upgrade_an1.yml': line 108, column 7, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n    - name: Reboot after dist-upgrade for 20.04 if required\n      ^ here\n"}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=5    changed=0    unreachable=0    failed=1    skipped=8    rescued=0    ignored=0
