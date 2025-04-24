@@ -1,0 +1,59 @@
+ansible-playbook -i /etc/ansible/hosts os_upgrade_an3.yml -v
+Using /etc/ansible/ansible.cfg as config file
+
+PLAY [Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04] **************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [10.13.0.81]
+
+TASK [Check if reboot is required] ***************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "stat": {"exists": false}}
+
+TASK [Reboot if required] ************************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if lxd is installed] *****************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["dpkg", "-l", "lxd"], "delta": "0:00:00.015920", "end": "2025-04-24 17:53:06.877751", "failed_when_result": false, "msg": "non-zero return code", "rc": 1, "start": "2025-04-24 17:53:06.861831", "stderr": "dpkg-query: no packages found matching lxd", "stderr_lines": ["dpkg-query: no packages found matching lxd"], "stdout": "", "stdout_lines": []}
+
+TASK [Remove lxd package if installed] ***********************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Clean up lxd residual files if package was removed] ****************************************************************
+skipping: [10.13.0.81] => (item=/var/lib/lxd)  => {"ansible_loop_var": "item", "changed": false, "item": "/var/lib/lxd", "skip_reason": "Conditional result was False"}
+skipping: [10.13.0.81] => (item=/var/snap/lxd)  => {"ansible_loop_var": "item", "changed": false, "item": "/var/snap/lxd", "skip_reason": "Conditional result was False"}
+
+TASK [Get current OS release] ********************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["lsb_release", "-sr"], "delta": "0:00:00.022975", "end": "2025-04-24 17:53:07.257292", "rc": 0, "start": "2025-04-24 17:53:07.234317", "stderr": "", "stderr_lines": [], "stdout": "20.04", "stdout_lines": ["20.04"]}
+
+TASK [Configure apt sources for Ubuntu 20.04] ****************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Update package cache for 20.04] ************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Perform dist-upgrade for 20.04] ************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Check if reboot is required after dist-upgrade for 20.04] **********************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Reboot after dist-upgrade for 20.04 if required] *******************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Install update-manager-core for 20.04] *****************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Perform release upgrade to 20.04] **********************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Reboot after 20.04 upgrade] ****************************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Get current OS release after 20.04 upgrade] ************************************************************************
+skipping: [10.13.0.81] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Configure apt sources for Ubuntu 22.04] ****************************************************************************
+fatal: [10.13.0.81]: FAILED! => {"msg": "The conditional check 'os_release.stdout == \"20.04\"' failed. The error was: error while evaluating conditional (os_release.stdout == \"20.04\"): 'dict object' has no attribute 'stdout'\n\nThe error appears to be in '/etc/ansible/playbook/os_upgrade_an3.yml': line 139, column 7, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n    # Ubuntu 20.04 to 22.04 upgrade\n    - name: Configure apt sources for Ubuntu 22.04\n      ^ here\n"}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=4    changed=0    unreachable=0    failed=1    skipped=12   rescued=0    ignored=0
