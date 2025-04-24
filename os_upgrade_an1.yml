@@ -1,0 +1,236 @@
+---
+- name: Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04
+  hosts: all
+  become: yes
+  vars:
+    repo_url: "http://10.13.0.88:8080/ubuntu"
+    reboot_timeout: 1800  # 30 minutes in seconds
+  tasks:
+    - name: Check if reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: reboot_required.stat.exists
+      register: initial_reboot
+      changed_when: reboot_required.stat.exists
+
+    - name: Check if lxd is installed
+      command: dpkg -l | grep -q lxd
+      register: lxd_check
+      changed_when: false
+      failed_when: false
+      ignore_errors: yes
+
+    - name: Remove lxd package if installed
+      apt:
+        name: lxd
+        state: absent
+        purge: yes
+      when: lxd_check.rc == 0
+      register: lxd_removed
+      changed_when: lxd_removed.changed
+
+    - name: Check if snapd is installed
+      command: dpkg -l | grep -q snapd
+      register: snapd_check
+      changed_when: false
+      failed_when: false
+      ignore_errors: yes
+
+    - name: Remove snapd package if installed
+      apt:
+        name: snapd
+        state: absent
+        purge: yes
+      when: snapd_check.rc == 0
+      register: snapd_removed
+      changed_when: snapd_removed.changed
+
+    - name: Clean up lxd residual files if packages were removed or residuals exist
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/lxd
+        - /var/snap/lxd
+      when: lxd_removed.changed or snapd_removed.changed or lxd_check.rc == 0 or snapd_check.rc == 0
+      register: lxd_cleanup
+      changed_when: lxd_cleanup.changed
+
+    - name: Get current OS release
+      command: lsb_release -sr
+      register: os_release
+      changed_when: false
+
+    # Ubuntu 18.04 to 20.04 upgrade
+    - name: Configure apt sources for Ubuntu 20.04
+      copy:
+        content: |
+          deb [arch=amd64] {{ repo_url }} focal main universe
+          deb [arch=amd64] {{ repo_url }} focal-updates main universe
+          deb [arch=amd64] {{ repo_url }} focal-security main universe
+          deb [arch=amd64] {{ repo_url }} focal-backports main universe
+        dest: /etc/apt/sources.list
+      when: os_release.stdout == "18.04"
+      register: sources_list_20_04
+      changed_when: sources_list_20_04.changed
+
+    - name: Update package cache for 20.04
+      apt:
+        update_cache: yes
+      when: os_release.stdout == "18.04"
+      register: apt_update_20_04
+      changed_when: apt_update_20_04.changed
+
+    - name: Perform dist-upgrade for 20.04
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+        autoclean: yes
+        autoremove: yes
+        dpkg_options: force-confdef,force-confnew
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "18.04"
+      register: dist_upgrade_20_04
+      changed_when: dist_upgrade_20_04.changed
+
+    - name: Check if reboot is required after dist-upgrade for 20.04
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_dist_20_04
+      when: os_release.stdout == "18.04"
+
+    - name: Reboot after dist-upgrade for 20.04 if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: reboot_required_dist_20_04.stat.exists and os_release.stdout == "18.04"
+      register: reboot_dist_20_04
+      changed_when: reboot_required_dist_20_04.stat.exists
+
+    - name: Install update-manager-core for 20.04
+      apt:
+        name: update-manager-core
+        state: present
+      when: os_release.stdout == "18.04"
+      register: update_manager_20_04
+      changed_when: update_manager_20_04.changed
+
+    - name: Perform release upgrade to 20.04
+      command: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "18.04"
+      register: release_upgrade_20_04
+      changed_when: release_upgrade_20_04.rc == 0
+
+    - name: Reboot after 20.04 upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: os_release.stdout == "18.04"
+      register: reboot_20_04
+      changed_when: true
+
+    # Refresh OS release after 20.04 upgrade
+    - name: Get current OS release after 20.04 upgrade
+      command: lsb_release -sr
+      register: os_release
+      changed_when: false
+      when: os_release.stdout == "18.04"
+
+    # Ubuntu 20.04 to 22.04 upgrade
+    - name: Configure apt sources for Ubuntu 22.04
+      copy:
+        content: |
+          deb [arch=amd64] {{ repo_url }} jammy main universe
+          deb [arch=amd64] {{ repo_url }} jammy-updates main universe
+          deb [arch=amd64] {{ repo_url }} jammy-security main universe
+          deb [arch=amd64] {{ repo_url }} jammy-backports main universe
+        dest: /etc/apt/sources.list
+      when: os_release.stdout == "20.04"
+      register: sources_list_22_04
+      changed_when: sources_list_22_04.changed
+
+    - name: Update package cache for 22.04
+      apt:
+        update_cache: yes
+      when: os_release.stdout == "20.04"
+      register: apt_update_22_04
+      changed_when: apt_update_22_04.changed
+
+    - name: Perform dist-upgrade for 22.04
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+        autoclean: yes
+        autoremove: yes
+        dpkg_options: force-confdef,force-confnew
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "20.04"
+      register: dist_upgrade_22_04
+      changed_when: dist_upgrade_22_04.changed
+
+    - name: Check if reboot is required after dist-upgrade for 22.04
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_dist_22_04
+      when: os_release.stdout == "20.04"
+
+    - name: Reboot after dist-upgrade for 22.04 if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: reboot_required_dist_22_04.stat.exists and os_release.stdout == "20.04"
+      register: reboot_dist_22_04
+      changed_when: reboot_required_dist_22_04.stat.exists
+
+    - name: Install update-manager-core for 22.04
+      apt:
+        name: update-manager-core
+        state: present
+      when: os_release.stdout == "20.04"
+      register: update_manager_22_04
+      changed_when: update_manager_22_04.changed
+
+    - name: Perform release upgrade to 22.04
+      command: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "20.04"
+      register: release_upgrade_22_04
+      changed_when: release_upgrade_22_04.rc == 0
+
+    - name: Reboot after 22.04 upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: os_release.stdout == "20.04"
+      register: reboot_22_04
+      changed_when: true
+
+    - name: Verify Ubuntu 22.04 upgrade
+      command: lsb_release -a
+      register: lsb_release_output
+      changed_when: false
+
+    - name: Check if upgrade to 22.04 was successful
+      assert:
+        that:
+          - "'22.04' in lsb_release_output.stdout"
+        fail_msg: "Ubuntu 22.04 upgrade failed"
+        success_msg: "Ubuntu 22.04 upgrade successful"
+      when: os_release.stdout in ["18.04", "20.04"]
+---
