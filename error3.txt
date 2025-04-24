@@ -1,0 +1,218 @@
+salt '10.13.0.81' state.apply os_upgrade_gk1
+10.13.0.81:
+----------
+          ID: check_reboot_required
+    Function: cmd.run
+        Name: [ -f /var/run/reboot-required ] && echo "Reboot required" && exit 1 || echo "No reboot required"
+      Result: False
+     Comment: Command "[ -f /var/run/reboot-required ] && echo "Reboot required" && exit 1 || echo "No reboot required"" run
+     Started: 14:25:44.074770
+    Duration: 9.772 ms
+     Changes:
+              ----------
+              pid:
+                  11253
+              retcode:
+                  1
+              stderr:
+              stdout:
+                  Reboot required
+----------
+          ID: remove_lxd
+    Function: pkg.removed
+        Name: lxd
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.check_reboot_required
+     Changes:
+----------
+          ID: remove_snapd
+    Function: pkg.removed
+        Name: snapd
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.remove_lxd
+     Changes:
+----------
+          ID: cleanup_lxd_residuals
+    Function: cmd.run
+        Name: rm -rf /var/lib/lxd /var/snap/lxd
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.remove_snapd, os_upgrade_gk1.remove_lxd
+     Changes:
+----------
+          ID: update_sources_list_20_04
+    Function: file.managed
+        Name: /etc/apt/sources.list
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.cleanup_lxd_residuals
+     Changes:
+----------
+          ID: update_apt_cache_20_04
+    Function: cmd.run
+        Name: apt-get update && apt-get dist-upgrade -y --force-confdef --force-confnew
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.update_sources_list_20_04
+     Changes:
+----------
+          ID: check_reboot_after_dist_upgrade_20_04
+    Function: cmd.run
+        Name: [ -f /var/run/reboot-required ] && echo "Reboot required after dist-upgrade" || echo "No reboot required"
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.update_apt_cache_20_04
+     Changes:
+----------
+          ID: reboot_after_dist_upgrade_20_04
+    Function: cmd.run
+        Name: reboot
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.check_reboot_after_dist_upgrade_20_04
+     Changes:
+----------
+          ID: wait_for_reboot_after_dist_upgrade_20_04
+    Function: cmd.run
+        Name: for i in {1..30}; do
+  if salt-call test.ping; then
+    exit 0
+  fi
+  sleep 10
+done
+echo "Timeout waiting for Salt minion" && exit 1
+
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.reboot_after_dist_upgrade_20_04
+     Changes:
+----------
+          ID: install_update_manager_20_04
+    Function: pkg.installed
+        Name: update-manager-core
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.wait_for_reboot_after_dist_upgrade_20_04, os_upgrade_gk1.update_apt_cache_20_04
+     Changes:
+----------
+          ID: do_release_upgrade_20_04
+    Function: cmd.run
+        Name: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.install_update_manager_20_04
+     Changes:
+----------
+          ID: reboot_after_20_04
+    Function: cmd.run
+        Name: reboot
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.do_release_upgrade_20_04
+     Changes:
+----------
+          ID: wait_for_reboot_20_04
+    Function: cmd.run
+        Name: for i in {1..30}; do
+  if salt-call test.ping; then
+    exit 0
+  fi
+  sleep 10
+done
+echo "Timeout waiting for Salt minion" && exit 1
+
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.reboot_after_20_04
+     Changes:
+----------
+          ID: update_sources_list_22_04
+    Function: file.managed
+        Name: /etc/apt/sources.list
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.wait_for_reboot_20_04
+     Changes:
+----------
+          ID: update_apt_cache_22_04
+    Function: cmd.run
+        Name: apt-get update && apt-get dist-upgrade -y --force-confdef --force-confnew
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.update_sources_list_22_04
+     Changes:
+----------
+          ID: check_reboot_after_dist_upgrade_22_04
+    Function: cmd.run
+        Name: [ -f /var/run/reboot-required ] && echo "Reboot required after dist-upgrade" || echo "No reboot required"
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.update_apt_cache_22_04
+     Changes:
+----------
+          ID: reboot_after_dist_upgrade_22_04
+    Function: cmd.run
+        Name: reboot
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.check_reboot_after_dist_upgrade_22_04
+     Changes:
+----------
+          ID: wait_for_reboot_after_dist_upgrade_22_04
+    Function: cmd.run
+        Name: for i in {1..30}; do
+  if salt-call test.ping; then
+    exit 0
+  fi
+  sleep 10
+done
+echo "Timeout waiting for Salt minion" && exit 1
+
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.reboot_after_dist_upgrade_22_04
+     Changes:
+----------
+          ID: install_update_manager_22_04
+    Function: pkg.installed
+        Name: update-manager-core
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.wait_for_reboot_after_dist_upgrade_22_04, os_upgrade_gk1.update_apt_cache_22_04
+     Changes:
+----------
+          ID: do_release_upgrade_22_04
+    Function: cmd.run
+        Name: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.install_update_manager_22_04
+     Changes:
+----------
+          ID: reboot_after_22_04
+    Function: cmd.run
+        Name: reboot
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.do_release_upgrade_22_04
+     Changes:
+----------
+          ID: wait_for_reboot_22_04
+    Function: cmd.run
+        Name: for i in {1..30}; do
+  if salt-call test.ping; then
+    exit 0
+  fi
+  sleep 10
+done
+echo "Timeout waiting for Salt minion" && exit 1
+
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.reboot_after_22_04
+     Changes:
+----------
+          ID: confirm_22_04_upgrade
+    Function: cmd.run
+        Name: salt-call saltutil.refresh_grains
+if lsb_release -a 2>/dev/null | grep -q "22.04"; then
+  echo "Ubuntu 22.04 upgrade successful"
+  exit 0
+else
+  echo "Ubuntu 22.04 upgrade failed"
+  exit 1
+fi
+
+      Result: False
+     Comment: One or more requisite failed: os_upgrade_gk1.wait_for_reboot_22_04
+     Changes:
+
+Summary for 10.13.0.81
+-------------
+Succeeded:  0 (changed=1)
+Failed:    23
+-------------
+Total states run:     23
+Total run time:    9.772 ms
+ERROR: Minions returned with non-zero exit code
