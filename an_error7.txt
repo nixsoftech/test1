@@ -1,0 +1,8 @@
+TASK [Get current OS release] ********************************************************************************************
+ok: [10.13.0.81] => {"changed": false, "cmd": ["lsb_release", "-sr"], "delta": "0:00:00.023204", "end": "2025-04-24 18:22:59.713235", "rc": 0, "start": "2025-04-24 18:22:59.690031", "stderr": "", "stderr_lines": [], "stdout": "20.04", "stdout_lines": ["20.04"]}
+
+TASK [Disable i386 architecture] *****************************************************************************************
+fatal: [10.13.0.81]: FAILED! => {"changed": true, "cmd": ["dpkg", "--remove-architecture", "i386"], "delta": "0:00:00.013445", "end": "2025-04-24 18:23:00.018224", "msg": "non-zero return code", "rc": 2, "start": "2025-04-24 18:23:00.004779", "stderr": "dpkg: error: cannot remove architecture 'i386' currently in use by the database", "stderr_lines": ["dpkg: error: cannot remove architecture 'i386' currently in use by the database"], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=4    changed=0    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0
