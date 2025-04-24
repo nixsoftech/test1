@@ -1,0 +1,10 @@
+ansible-playbook -i /etc/ansible/hosts os_upgrade_an1.yml -v
+Using /etc/ansible/ansible.cfg as config file
+
+PLAY [Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04] **************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+fatal: [10.13.0.81]: FAILED! => {"msg": "Missing sudo password"}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
