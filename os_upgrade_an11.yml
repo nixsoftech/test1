@@ -1,0 +1,494 @@
+---
+- name: Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04
+  hosts: all
+  become: yes
+  vars:
+    repo_url: "http://10.13.0.88:8080/ubuntu"
+    reboot_timeout: 1800  # 30 minutes in seconds
+  tasks:
+    - name: Check if reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: reboot_required.stat.exists
+      register: initial_reboot
+      changed_when: reboot_required.stat.exists
+
+    - name: Check if lxd is installed
+      command: dpkg -l lxd
+      register: lxd_check
+      changed_when: false
+      failed_when: false
+      ignore_errors: yes
+
+    - name: Remove lxd package if installed
+      apt:
+        name: lxd
+        state: absent
+        purge: yes
+      when: lxd_check.rc == 0
+      register: lxd_removed
+      changed_when: lxd_removed.changed
+
+    - name: Clean up lxd residual files if package was removed
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/lxd
+        - /var/snap/lxd
+      when: lxd_removed.changed or lxd_check.rc == 0
+      register: lxd_cleanup
+      changed_when: lxd_cleanup.changed
+
+    - name: Get current OS release
+      command: lsb_release -sr
+      register: os_release
+      changed_when: false
+
+    - name: Restrict apt to amd64 architecture
+      copy:
+        content: 'APT::Architectures "amd64";'
+        dest: /etc/apt/apt.conf.d/99no-i386
+        mode: '0644'
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Check for running dpkg or apt processes before removing i386 packages
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_i386
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before removing i386 packages
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_i386.stdout | length > 0
+      register: dpkg_apt_kill_i386
+      changed_when: dpkg_apt_check_i386.stdout | length > 0
+
+    - name: Remove dpkg lock files before removing i386 packages
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: List installed i386 packages
+      shell: dpkg-query --show --showformat='${Package}\n' '*:i386' || true
+      register: i386_packages
+      changed_when: false
+      failed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Remove i386 packages
+      shell: apt-get purge -y --force-confdef --force-confold $(dpkg-query --show --showformat='${Package}\n' '*:i386') || true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - i386_packages.stdout_lines is defined
+        - i386_packages.stdout_lines | length > 0
+      register: i386_removed
+      changed_when: i386_removed.rc == 0
+      ignore_errors: yes
+
+    - name: Disable i386 architecture
+      command: dpkg --remove-architecture i386
+      changed_when: true
+      when: os_release.stdout in ["18.04", "20.04"]
+      register: disable_i386
+      ignore_errors: yes
+
+    - name: Ensure focal sources are configured
+      copy:
+        content: |
+          deb [arch=amd64] {{ repo_url }} focal main universe
+          deb [arch=amd64] {{ repo_url }} focal-updates main universe
+          deb [arch=amd64] {{ repo_url }} focal-security main universe
+        dest: /etc/apt/sources.list
+      register: sources_list_focal
+      changed_when: sources_list_focal.changed
+
+    - name: Remove external sources
+      file:
+        path: /etc/apt/sources.list.d/{{ item }}
+        state: absent
+      loop:
+        - microsoft.list
+        - bionic.list
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Disable AppStream to avoid appstreamcli error
+      file:
+        path: /etc/apt/apt.conf.d/50appstream
+        state: absent
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Check for running dpkg or apt processes before removing problematic packages
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_problematic
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before removing problematic packages
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_problematic.stdout | length > 0
+      register: dpkg_apt_kill_problematic
+      changed_when: dpkg_apt_check_problematic.stdout | length > 0
+
+    - name: Remove dpkg lock files before removing problematic packages
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Remove problematic packages
+      shell: apt-get purge -y --force-confdef --force-confold python3-msgpack python3-psutil python3-tornado python3-zmq libapt-pkg-perl debconf-utils python-apt || true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout in ["18.04", "20.04"]
+      register: package_cleanup
+      changed_when: package_cleanup.rc == 0
+      ignore_errors: yes
+
+    - name: Check for running dpkg or apt processes before updating package cache
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_update
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before updating package cache
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_update.stdout | length > 0
+      register: dpkg_apt_kill_update
+      changed_when: dpkg_apt_check_update.stdout | length > 0
+
+    - name: Remove dpkg lock files before updating package cache
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      when: os_release.stdout in ["18.04", "20.04"]
+      register: apt_update_initial
+      changed_when: apt_update_initial.changed
+      ignore_errors: yes
+
+    - name: Check for running dpkg or apt processes before installing python3-apt
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_python3_apt
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before installing python3-apt
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_python3_apt.stdout | length > 0
+      register: dpkg_apt_kill_python3_apt
+      changed_when: dpkg_apt_check_python3_apt.stdout | length > 0
+
+    - name: Remove dpkg lock files before installing python3-apt
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Install python3-apt
+      shell: apt-get install -y --force-confdef --force-confold python3-apt || true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout in ["18.04", "20.04"]
+      register: python3_apt_install
+      changed_when: python3_apt_install.rc == 0
+      ignore_errors: yes
+
+    - name: Check for running dpkg or apt processes before fixing broken dependencies
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_fix
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before fixing broken dependencies
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_fix.stdout | length > 0
+      register: dpkg_apt_kill_fix
+      changed_when: dpkg_apt_check_fix.stdout | length > 0
+
+    - name: Remove dpkg lock files before fixing broken dependencies
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Fix broken dependencies if needed
+      shell: apt-get install -f -y --force-confdef --force-confold || true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - apt_update_initial.failed or python3_apt_install.failed
+      register: fix_broken
+      changed_when: fix_broken.rc == 0
+      timeout: 600  # 10-minute timeout to prevent hanging
+      ignore_errors: yes
+
+    - name: Check for running dpkg or apt processes before cleaning up package state
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_cleanup
+      changed_when: false
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg or apt processes before cleaning up package state
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout in ["18.04", "20.04"]
+        - dpkg_apt_check_cleanup.stdout | length > 0
+      register: dpkg_apt_kill_cleanup
+      changed_when: dpkg_apt_check_cleanup.stdout | length > 0
+
+    - name: Remove dpkg lock files before cleaning up package state
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Clean up package state
+      shell: apt-get autoremove -y --force-confdef --force-confold && apt-get autoclean || true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout in ["18.04", "20.04"]
+      register: apt_cleanup
+      changed_when: apt_cleanup.rc == 0
+      ignore_errors: yes
+
+    # Ubuntu 18.04 to 20.04 upgrade
+    - name: Check for running dpkg or apt processes before dist-upgrade for 18.04
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_dist_18_04
+      changed_when: false
+      when: os_release.stdout == "18.04"
+
+    - name: Kill running dpkg or apt processes before dist-upgrade for 18.04
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout == "18.04"
+        - dpkg_apt_check_dist_18_04.stdout | length > 0
+      register: dpkg_apt_kill_dist_18_04
+      changed_when: dpkg_apt_check_dist_18_04.stdout | length > 0
+
+    - name: Remove dpkg lock files before dist-upgrade for 18.04
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout == "18.04"
+
+    - name: Perform dist-upgrade for 18.04
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+        autoclean: yes
+        autoremove: yes
+        dpkg_options: force-confdef,force-confold
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "18.04"
+      register: dist_upgrade_18_04
+      changed_when: dist_upgrade_18_04.changed
+
+    - name: Check if reboot is required after dist-upgrade for 18.04
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_dist_18_04
+      when: os_release.stdout == "18.04"
+
+    - name: Reboot after dist-upgrade for 18.04 if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when:
+        - reboot_required_dist_18_04.stat.exists
+        - os_release.stdout == "18.04"
+      register: reboot_dist_18_04
+      changed_when: reboot_required_dist_18_04.stat.exists
+
+    - name: Install update-manager-core for 18.04
+      apt:
+        name: update-manager-core
+        state: present
+      when: os_release.stdout == "18.04"
+      register: update_manager_18_04
+      changed_when: update_manager_18_04.changed
+
+    - name: Perform release upgrade to 20.04
+      command: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "18.04"
+      register: release_upgrade_20_04
+      changed_when: release_upgrade_20_04.rc == 0
+
+    - name: Reboot after 20.04 upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: os_release.stdout == "18.04"
+      register: reboot_20_04
+      changed_when: true
+
+    # Ubuntu 20.04 to 22.04 upgrade
+    - name: Check for running dpkg or apt processes before dist-upgrade for 20.04
+      shell: ps aux | grep -E '[d]pkg|[a]pt' || true
+      register: dpkg_apt_check_dist_20_04
+      changed_when: false
+      when: os_release.stdout == "20.04"
+
+    - name: Kill running dpkg or apt processes before dist-upgrade for 20.04
+      shell: kill -9 $(ps aux | grep -E '[d]pkg|[a]pt' | awk '{print $2}') || true
+      when:
+        - os_release.stdout == "20.04"
+        - dpkg_apt_check_dist_20_04.stdout | length > 0
+      register: dpkg_apt_kill_dist_20_04
+      changed_when: dpkg_apt_check_dist_20_04.stdout | length > 0
+
+    - name: Remove dpkg lock files before dist-upgrade for 20.04
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+      when: os_release.stdout == "20.04"
+
+    - name: Perform dist-upgrade for 20.04
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+        autoclean: yes
+        autoremove: yes
+        dpkg_options: force-confdef,force-confold
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "20.04"
+      register: dist_upgrade_20_04
+      changed_when: dist_upgrade_20_04.changed
+
+    - name: Check if reboot is required after dist-upgrade for 20.04
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_dist_20_04
+      when: os_release.stdout == "20.04"
+
+    - name: Reboot after dist-upgrade for 20.04 if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when:
+        - reboot_required_dist_20_04.stat.exists
+        - os_release.stdout == "20.04"
+      register: reboot_dist_20_04
+      changed_when: reboot_required_dist_20_04.stat.exists
+
+    - name: Install update-manager-core for 20.04
+      apt:
+        name: update-manager-core
+        state: present
+      when: os_release.stdout == "20.04"
+      register: update_manager_20_04
+      changed_when: update_manager_20_04.changed
+
+    - name: Perform release upgrade to 22.04
+      command: do-release-upgrade -m server -f DistUpgradeViewNonInteractive
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: os_release.stdout == "20.04"
+      register: release_upgrade_22_04
+      changed_when: release_upgrade_22_04.rc == 0
+
+    - name: Reboot after 22.04 upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: os_release.stdout == "20.04"
+      register: reboot_22_04
+      changed_when: true
+
+    - name: Configure apt sources for Ubuntu 22.04
+      copy:
+        content: |
+          deb [arch=amd64] {{ repo_url }} jammy main universe
+          deb [arch=amd64] {{ repo_url }} jammy-updates main universe
+          deb [arch=amd64] {{ repo_url }} jammy-security main universe
+        dest: /etc/apt/sources.list
+      when: os_release.stdout == "20.04"
+      register: sources_list_22_04
+      changed_when: sources_list_22_04.changed
+
+    - name: Update package cache for 22.04
+      apt:
+        update_cache: yes
+      when: os_release.stdout == "20.04"
+      register: apt_update_22_04
+      changed_when: apt_update_22_04.changed
+
+    - name: Verify Ubuntu 22.04 upgrade
+      command: lsb_release -a
+      register: lsb_release_output
+      changed_when: false
+
+    - name: Check if upgrade to 22.04 was successful
+      assert:
+        that:
+          - "'22.04' in lsb_release_output.stdout"
+        fail_msg: "Ubuntu 22.04 upgrade failed"
+        success_msg: "Ubuntu 22.04 upgrade successful"
+      when: os_release.stdout in ["18.04", "20.04"]
+---
