@@ -1,0 +1,1238 @@
+TASK [Check for running dpkg or apt processes before removing i386 packages] *********************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:61
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635 `" && echo ansible-tmp-1745827455.8419018-1484503-192792637851635="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827455.8419018-1484503-192792637851635=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpegkt3_cp TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpegkt3_cp /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-piuqhgyjabxzgfzbvwamrhmrctsxlvgz ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:15.504590", "stdout": "", "cmd": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "rc": 0, "start": "2025-04-28 13:36:15.488123", "stderr": "", "delta": "0:00:00.016467", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827455.8419018-1484503-192792637851635/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "cmd": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+    "delta": "0:00:00.016467",
+    "end": "2025-04-28 13:36:15.504590",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:15.488123",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [Kill running dpkg or apt processes before removing i386 packages] **************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:67
+skipping: [10.13.0.81] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Remove dpkg lock files before removing i386 packages] **************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:75
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363 `" && echo ansible-tmp-1745827456.2090304-1484514-173802935775363="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827456.2090304-1484514-173802935775363=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpcojwsfms TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpcojwsfms /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-nyxkpdmrrvarvjsspgejgqukkzsgnkpf ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/dpkg/lock-frontend", "attributes": null, "mode": null}}, "path": "/var/lib/dpkg/lock-frontend", "state": "absent", "changed": true, "diff": {"after": {"path": "/var/lib/dpkg/lock-frontend", "state": "absent"}, "before": {"path": "/var/lib/dpkg/lock-frontend", "state": "file"}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.2090304-1484514-173802935775363/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+changed: [10.13.0.81] => (item=/var/lib/dpkg/lock-frontend) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "path": "/var/lib/dpkg/lock-frontend",
+            "state": "absent"
+        },
+        "before": {
+            "path": "/var/lib/dpkg/lock-frontend",
+            "state": "file"
+        }
+    },
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/dpkg/lock-frontend",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/dpkg/lock-frontend",
+    "path": "/var/lib/dpkg/lock-frontend",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478 `" && echo ansible-tmp-1745827456.5178344-1484514-239217261239478="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827456.5178344-1484514-239217261239478=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpathubyq0 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpathubyq0 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-lkrjbrcltepzksjdkwlvjrgzzzgbknzy ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/apt/lists/lock", "attributes": null, "mode": null}}, "path": "/var/lib/apt/lists/lock", "state": "absent", "changed": true, "diff": {"after": {"path": "/var/lib/apt/lists/lock", "state": "absent"}, "before": {"path": "/var/lib/apt/lists/lock", "state": "file"}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.5178344-1484514-239217261239478/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+changed: [10.13.0.81] => (item=/var/lib/apt/lists/lock) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "path": "/var/lib/apt/lists/lock",
+            "state": "absent"
+        },
+        "before": {
+            "path": "/var/lib/apt/lists/lock",
+            "state": "file"
+        }
+    },
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/apt/lists/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/apt/lists/lock",
+    "path": "/var/lib/apt/lists/lock",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262 `" && echo ansible-tmp-1745827456.7755215-1484514-133527916939262="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827456.7755215-1484514-133527916939262=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmping12wt6 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmping12wt6 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-rurwpazbnooqokuzeretvfamfcgxomzy ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/cache/apt/archives/lock", "attributes": null, "mode": null}}, "path": "/var/cache/apt/archives/lock", "state": "absent", "changed": true, "diff": {"after": {"path": "/var/cache/apt/archives/lock", "state": "absent"}, "before": {"path": "/var/cache/apt/archives/lock", "state": "file"}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827456.7755215-1484514-133527916939262/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+changed: [10.13.0.81] => (item=/var/cache/apt/archives/lock) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "path": "/var/cache/apt/archives/lock",
+            "state": "absent"
+        },
+        "before": {
+            "path": "/var/cache/apt/archives/lock",
+            "state": "file"
+        }
+    },
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/cache/apt/archives/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/cache/apt/archives/lock",
+    "path": "/var/cache/apt/archives/lock",
+    "state": "absent"
+}
+
+TASK [List installed i386 packages] **************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:85
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876 `" && echo ansible-tmp-1745827457.0855038-1484537-34760931137876="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827457.0855038-1484537-34760931137876=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp5a31iqbf TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp5a31iqbf /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-ccomrzwzgypugzskpbgzwwxhihpqheyj ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:16.740188", "stdout": "gcc-8-base\\nlibc6\\nlibgl1-mesa-dri\\nlibglib2.0-0\\nlibgssapi-krb5-2\\nlibogg0\\nlibpulse0\\nlibsane1\\nlibsasl2-modules\\nlibsensors4\\nlibssl1.1\\nlibwrap0\\nlibxext6\\nlibxinerama1\\nlibxss1\\nlibxxf86vm1", "cmd": "dpkg-query --show --showformat=\'${Package}\\\\n\' \'*:i386\' || true", "rc": 0, "start": "2025-04-28 13:36:16.723427", "stderr": "", "delta": "0:00:00.016761", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "dpkg-query --show --showformat=\'${Package}\\\\n\' \'*:i386\' || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.0855038-1484537-34760931137876/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "cmd": "dpkg-query --show --showformat='${Package}\\n' '*:i386' || true",
+    "delta": "0:00:00.016761",
+    "end": "2025-04-28 13:36:16.740188",
+    "failed_when_result": false,
+    "invocation": {
+        "module_args": {
+            "_raw_params": "dpkg-query --show --showformat='${Package}\\n' '*:i386' || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:16.723427",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "gcc-8-base\nlibc6\nlibgl1-mesa-dri\nlibglib2.0-0\nlibgssapi-krb5-2\nlibogg0\nlibpulse0\nlibsane1\nlibsasl2-modules\nlibsensors4\nlibssl1.1\nlibwrap0\nlibxext6\nlibxinerama1\nlibxss1\nlibxxf86vm1",
+    "stdout_lines": [
+        "gcc-8-base",
+        "libc6",
+        "libgl1-mesa-dri",
+        "libglib2.0-0",
+        "libgssapi-krb5-2",
+        "libogg0",
+        "libpulse0",
+        "libsane1",
+        "libsasl2-modules",
+        "libsensors4",
+        "libssl1.1",
+        "libwrap0",
+        "libxext6",
+        "libxinerama1",
+        "libxss1",
+        "libxxf86vm1"
+    ]
+}
+
+TASK [Remove i386 packages] **********************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:92
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360 `" && echo ansible-tmp-1745827457.4034035-1484546-130151407873360="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827457.4034035-1484546-130151407873360=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpvqxyfzyv TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpvqxyfzyv /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-qosuohlzvifjrkrjmxqtrswqahinlyik ; DEBIAN_FRONTEND=noninteractive /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:17.089824", "stdout": "", "cmd": "apt-get purge -y --force-confdef --force-confold $(dpkg-query --show --showformat=\'${Package}\\\\n\' \'*:i386\') || true", "rc": 0, "start": "2025-04-28 13:36:17.070255", "stderr": "E: Command line option --force-confdef is not understood in combination with the other options", "delta": "0:00:00.019569", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "apt-get purge -y --force-confdef --force-confold $(dpkg-query --show --showformat=\'${Package}\\\\n\' \'*:i386\') || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}, "warnings": ["Consider using the apt module rather than running \'apt-get\'.  If you need to use command because apt is insufficient you can add \'warn: false\' to this command task or set \'command_warnings=False\' in ansible.cfg to get rid of this message."]}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.4034035-1484546-130151407873360/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+[WARNING]: Consider using the apt module rather than running 'apt-get'.  If you need to use command because apt is
+insufficient you can add 'warn: false' to this command task or set 'command_warnings=False' in ansible.cfg to get rid of
+this message.
+changed: [10.13.0.81] => {
+    "changed": true,
+    "cmd": "apt-get purge -y --force-confdef --force-confold $(dpkg-query --show --showformat='${Package}\\n' '*:i386') || true",
+    "delta": "0:00:00.019569",
+    "end": "2025-04-28 13:36:17.089824",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "apt-get purge -y --force-confdef --force-confold $(dpkg-query --show --showformat='${Package}\\n' '*:i386') || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:17.070255",
+    "stderr": "E: Command line option --force-confdef is not understood in combination with the other options",
+    "stderr_lines": [
+        "E: Command line option --force-confdef is not understood in combination with the other options"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [Disable i386 architecture] *****************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:104
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374 `" && echo ansible-tmp-1745827457.7532406-1484555-187339293952374="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827457.7532406-1484555-187339293952374=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp_fqav5ie TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp_fqav5ie /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-qldearcjoyhcbqxbfxhtuhhwmmcrykgv ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (1, b'\r\n{"changed": true, "end": "2025-04-28 13:36:17.407584", "stdout": "", "cmd": ["dpkg", "--remove-architecture", "i386"], "failed": true, "delta": "0:00:00.013496", "stderr": "dpkg: error: cannot remove architecture \'i386\' currently in use by the database", "rc": 2, "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": false, "strip_empty_ends": true, "_raw_params": "dpkg --remove-architecture i386", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}, "start": "2025-04-28 13:36:17.394088", "msg": "non-zero return code"}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> Failed to connect to the host via ssh: Shared connection to 10.13.0.81 closed.
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827457.7532406-1484555-187339293952374/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+fatal: [10.13.0.81]: FAILED! => {
+    "changed": true,
+    "cmd": [
+        "dpkg",
+        "--remove-architecture",
+        "i386"
+    ],
+    "delta": "0:00:00.013496",
+    "end": "2025-04-28 13:36:17.407584",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "dpkg --remove-architecture i386",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "msg": "non-zero return code",
+    "rc": 2,
+    "start": "2025-04-28 13:36:17.394088",
+    "stderr": "dpkg: error: cannot remove architecture 'i386' currently in use by the database",
+    "stderr_lines": [
+        "dpkg: error: cannot remove architecture 'i386' currently in use by the database"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
+...ignoring
+
+TASK [Ensure focal sources are configured] *******************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:111
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996 `" && echo ansible-tmp-1745827458.084833-1484564-247843695753996="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827458.084833-1484564-247843695753996=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/stat.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp9sgd5fr6 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_stat.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp9sgd5fr6 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_stat.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_stat.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-qddgntwghtdaqxwvuhmxjpdvjyyteenb ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_stat.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"checksum_algorithm": "sha1", "get_checksum": true, "follow": false, "path": "/etc/apt/sources.list", "get_md5": false, "get_mime": true, "get_attributes": true}}, "stat": {"charset": "us-ascii", "uid": 0, "exists": true, "attr_flags": "e", "woth": false, "isreg": true, "device_type": 0, "mtime": 1745499313.3623264, "block_size": 4096, "inode": 17055806, "isgid": false, "size": 218, "executable": false, "isuid": false, "readable": true, "version": "2539638042", "pw_name": "root", "gid": 0, "ischr": false, "wusr": true, "writeable": true, "mimetype": "text/plain", "blocks": 8, "xoth": false, "islnk": false, "nlink": 1, "issock": false, "rgrp": true, "gr_name": "root", "path": "/etc/apt/sources.list", "xusr": false, "atime": 1745824532.749086, "isdir": false, "ctime": 1745499313.5863264, "isblk": false, "wgrp": false, "checksum": "3473a629a12004ecb90d953d6c32ef83e7c5ecce", "dev": 66309, "roth": true, "isfifo": false, "mode": "0644", "xgrp": false, "rusr": true, "attributes": ["extents"]}, "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpn4mmelba TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpn4mmelba /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-lmxhvsnonyrxusezvnivxagehwikydsi ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"group": "root", "uid": 0, "changed": false, "owner": "root", "state": "file", "gid": 0, "mode": "0644", "path": "/etc/apt/sources.list", "invocation": {"module_args": {"force": false, "_original_basename": "tmp_c4hw8io", "owner": null, "follow": true, "group": null, "unsafe_writes": false, "state": "file", "setype": null, "access_time": null, "dest": "/etc/apt/sources.list", "selevel": null, "access_time_format": "%Y%m%d%H%M.%S", "modification_time": null, "path": "/etc/apt/sources.list", "src": null, "serole": null, "seuser": null, "recurse": false, "_diff_peek": null, "mode": null, "modification_time_format": "%Y%m%d%H%M.%S", "attributes": null}}, "diff": {"after": {"path": "/etc/apt/sources.list"}, "before": {"path": "/etc/apt/sources.list"}}, "size": 218}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.084833-1484564-247843695753996/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "checksum": "3473a629a12004ecb90d953d6c32ef83e7c5ecce",
+    "dest": "/etc/apt/sources.list",
+    "diff": {
+        "after": {
+            "path": "/etc/apt/sources.list"
+        },
+        "before": {
+            "path": "/etc/apt/sources.list"
+        }
+    },
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": "tmp_c4hw8io",
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "dest": "/etc/apt/sources.list",
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/etc/apt/sources.list",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "file",
+            "unsafe_writes": false
+        }
+    },
+    "mode": "0644",
+    "owner": "root",
+    "path": "/etc/apt/sources.list",
+    "size": 218,
+    "state": "file",
+    "uid": 0
+}
+
+TASK [Remove external sources] *******************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:121
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614 `" && echo ansible-tmp-1745827458.5577369-1484577-181923080104614="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827458.5577369-1484577-181923080104614=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpnavipfsx TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpnavipfsx /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-pkcoglclpvgpzgblgxwzjnrqwjguizkr ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/etc/apt/sources.list.d/microsoft.list", "attributes": null, "mode": null}}, "path": "/etc/apt/sources.list.d/microsoft.list", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.5577369-1484577-181923080104614/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=microsoft.list) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/etc/apt/sources.list.d/microsoft.list",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "microsoft.list",
+    "path": "/etc/apt/sources.list.d/microsoft.list",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498 `" && echo ansible-tmp-1745827458.7658985-1484577-249616304402498="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827458.7658985-1484577-249616304402498=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpu4ruy9in TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpu4ruy9in /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-mfczbqthbnwvqbnlowznelavihslssmv ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/etc/apt/sources.list.d/bionic.list", "attributes": null, "mode": null}}, "path": "/etc/apt/sources.list.d/bionic.list", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827458.7658985-1484577-249616304402498/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=bionic.list) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/etc/apt/sources.list.d/bionic.list",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "bionic.list",
+    "path": "/etc/apt/sources.list.d/bionic.list",
+    "state": "absent"
+}
+
+TASK [Disable AppStream to avoid appstreamcli error] *********************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:130
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835 `" && echo ansible-tmp-1745827459.05725-1484593-171929120894835="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827459.05725-1484593-171929120894835=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpdyybjrx7 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpdyybjrx7 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-vbewkiafvuvfbihthmdbyhcqzugybhmq ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/etc/apt/apt.conf.d/50appstream", "attributes": null, "mode": null}}, "path": "/etc/apt/apt.conf.d/50appstream", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.05725-1484593-171929120894835/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/etc/apt/apt.conf.d/50appstream",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "path": "/etc/apt/apt.conf.d/50appstream",
+    "state": "absent"
+}
+
+TASK [Check for running dpkg or apt processes before removing problematic packages] **************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:136
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746 `" && echo ansible-tmp-1745827459.316768-1484602-235910277687746="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827459.316768-1484602-235910277687746=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp02hedm0u TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp02hedm0u /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-painzezmkgijokepkqomxznukuotipwf ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:18.957422", "stdout": "", "cmd": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "rc": 0, "start": "2025-04-28 13:36:18.946230", "stderr": "", "delta": "0:00:00.011192", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.316768-1484602-235910277687746/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "cmd": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+    "delta": "0:00:00.011192",
+    "end": "2025-04-28 13:36:18.957422",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:18.946230",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [Kill running dpkg or apt processes before removing problematic packages] *******************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:142
+skipping: [10.13.0.81] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Remove dpkg lock files before removing problematic packages] *******************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:150
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632 `" && echo ansible-tmp-1745827459.666942-1484613-232380404296632="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827459.666942-1484613-232380404296632=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpanhlobmz TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpanhlobmz /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-vgvlijtxuzuteegwtvdshlaskvmavuhw ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/dpkg/lock-frontend", "attributes": null, "mode": null}}, "path": "/var/lib/dpkg/lock-frontend", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.666942-1484613-232380404296632/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=/var/lib/dpkg/lock-frontend) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/dpkg/lock-frontend",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/dpkg/lock-frontend",
+    "path": "/var/lib/dpkg/lock-frontend",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039 `" && echo ansible-tmp-1745827459.9138222-1484613-184642753342039="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827459.9138222-1484613-184642753342039=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpe02liyaw TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpe02liyaw /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-tytgilfquqqsrvlptnrhuhfczleepdsv ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/apt/lists/lock", "attributes": null, "mode": null}}, "path": "/var/lib/apt/lists/lock", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827459.9138222-1484613-184642753342039/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=/var/lib/apt/lists/lock) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/apt/lists/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/apt/lists/lock",
+    "path": "/var/lib/apt/lists/lock",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368 `" && echo ansible-tmp-1745827460.182879-1484613-75943146666368="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827460.182879-1484613-75943146666368=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp8vkdfi0k TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp8vkdfi0k /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-xmclvxqkxkoqnaasawhxxjfpbnjeubrn ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/cache/apt/archives/lock", "attributes": null, "mode": null}}, "path": "/var/cache/apt/archives/lock", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.182879-1484613-75943146666368/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=/var/cache/apt/archives/lock) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/cache/apt/archives/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/cache/apt/archives/lock",
+    "path": "/var/cache/apt/archives/lock",
+    "state": "absent"
+}
+
+TASK [Remove problematic packages] ***************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:160
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547 `" && echo ansible-tmp-1745827460.4999447-1484636-221610876512547="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827460.4999447-1484636-221610876512547=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpzuo2ypfv TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpzuo2ypfv /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-vxipzktrivaximisopowzxwdbcxusvzx ; DEBIAN_FRONTEND=noninteractive /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:20.148300", "stdout": "", "cmd": "apt-get purge -y --force-confdef --force-confold python3-msgpack python3-psutil python3-tornado python3-zmq libapt-pkg-perl debconf-utils python-apt || true", "rc": 0, "start": "2025-04-28 13:36:20.142979", "stderr": "E: Command line option --force-confdef is not understood in combination with the other options", "delta": "0:00:00.005321", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "apt-get purge -y --force-confdef --force-confold python3-msgpack python3-psutil python3-tornado python3-zmq libapt-pkg-perl debconf-utils python-apt || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}, "warnings": ["Consider using the apt module rather than running \'apt-get\'.  If you need to use command because apt is insufficient you can add \'warn: false\' to this command task or set \'command_warnings=False\' in ansible.cfg to get rid of this message."]}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.4999447-1484636-221610876512547/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+changed: [10.13.0.81] => {
+    "changed": true,
+    "cmd": "apt-get purge -y --force-confdef --force-confold python3-msgpack python3-psutil python3-tornado python3-zmq libapt-pkg-perl debconf-utils python-apt || true",
+    "delta": "0:00:00.005321",
+    "end": "2025-04-28 13:36:20.148300",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "apt-get purge -y --force-confdef --force-confold python3-msgpack python3-psutil python3-tornado python3-zmq libapt-pkg-perl debconf-utils python-apt || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:20.142979",
+    "stderr": "E: Command line option --force-confdef is not understood in combination with the other options",
+    "stderr_lines": [
+        "E: Command line option --force-confdef is not understood in combination with the other options"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [Check for running dpkg or apt processes before updating package cache] *********************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:169
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783 `" && echo ansible-tmp-1745827460.8112514-1484645-37883001943783="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827460.8112514-1484645-37883001943783=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpwyfmj_sl TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpwyfmj_sl /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-krsjcvzuzluiihyutykubjglwxknarpx ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"changed": true, "end": "2025-04-28 13:36:20.480122", "stdout": "", "cmd": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "rc": 0, "start": "2025-04-28 13:36:20.468876", "stderr": "", "delta": "0:00:00.011246", "invocation": {"module_args": {"creates": null, "executable": null, "_uses_shell": true, "strip_empty_ends": true, "_raw_params": "ps aux | grep -E \'[d]pkg|[a]pt\' || true", "removes": null, "argv": null, "warn": true, "chdir": null, "stdin_add_newline": true, "stdin": null}}}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827460.8112514-1484645-37883001943783/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => {
+    "changed": false,
+    "cmd": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+    "delta": "0:00:00.011246",
+    "end": "2025-04-28 13:36:20.480122",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "ps aux | grep -E '[d]pkg|[a]pt' || true",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2025-04-28 13:36:20.468876",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [Kill running dpkg or apt processes before updating package cache] **************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:175
+skipping: [10.13.0.81] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Remove dpkg lock files before updating package cache] **************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:183
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626 `" && echo ansible-tmp-1745827461.1820047-1484656-84105343760626="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827461.1820047-1484656-84105343760626=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmprkr4t5s1 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmprkr4t5s1 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-tqwmbadrmircxbcmkklqnqrsuyqwawrz ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/dpkg/lock-frontend", "attributes": null, "mode": null}}, "path": "/var/lib/dpkg/lock-frontend", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.1820047-1484656-84105343760626/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+ok: [10.13.0.81] => (item=/var/lib/dpkg/lock-frontend) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/dpkg/lock-frontend",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/dpkg/lock-frontend",
+    "path": "/var/lib/dpkg/lock-frontend",
+    "state": "absent"
+}
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934 `" && echo ansible-tmp-1745827461.419339-1484656-97138781199934="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827461.419339-1484656-97138781199934=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpldcbq_vh TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpldcbq_vh /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-cvmuvfuxzapnnkdquyrzyzdmmezyuwng ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/lib/apt/lists/lock", "attributes": null, "mode": null}}, "path": "/var/lib/apt/lists/lock", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.419339-1484656-97138781199934/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=/var/lib/apt/lists/lock) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/lib/apt/lists/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/lib/apt/lists/lock",
+    "path": "/var/lib/apt/lists/lock",
+    "state": "absent"
+}
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491 `" && echo ansible-tmp-1745827461.6639497-1484656-276000530428491="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827461.6639497-1484656-276000530428491=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpvodktyr7 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/AnsiballZ_file.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpvodktyr7 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/AnsiballZ_file.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/AnsiballZ_file.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-ghjudiilpsslhynaqnyhqnbrlfiqfqwn ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"src": null, "access_time": null, "force": false, "setype": null, "_original_basename": null, "unsafe_writes": false, "selevel": null, "seuser": null, "recurse": false, "state": "absent", "access_time_format": "%Y%m%d%H%M.%S", "group": null, "modification_time": null, "serole": null, "_diff_peek": null, "modification_time_format": "%Y%m%d%H%M.%S", "follow": true, "owner": null, "path": "/var/cache/apt/archives/lock", "attributes": null, "mode": null}}, "path": "/var/cache/apt/archives/lock", "state": "absent", "changed": false}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.6639497-1484656-276000530428491/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+ok: [10.13.0.81] => (item=/var/cache/apt/archives/lock) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/var/cache/apt/archives/lock",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/var/cache/apt/archives/lock",
+    "path": "/var/cache/apt/archives/lock",
+    "state": "absent"
+}
+
+TASK [Update package cache] **********************************************************************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:193
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620 `" && echo ansible-tmp-1745827461.9609234-1484679-145541156525620="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827461.9609234-1484679-145541156525620=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/apt.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpdfwyehx4 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/AnsiballZ_apt.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmpdfwyehx4 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/AnsiballZ_apt.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/AnsiballZ_apt.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-fvvnuclfbwbqvkngvzrmvwihjyjgwanw ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/AnsiballZ_apt.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (0, b'\r\n{"invocation": {"module_args": {"purge": false, "dpkg_options": "force-confdef,force-confold", "autoremove": false, "force": false, "force_apt_get": false, "policy_rc_d": null, "package": null, "autoclean": false, "install_recommends": null, "allow_unauthenticated": false, "update_cache_retry_max_delay": 12, "upgrade": null, "state": "present", "update_cache_retries": 5, "update_cache": true, "default_release": null, "only_upgrade": false, "deb": null, "cache_valid_time": 0}}, "cache_updated": true, "changed": true, "warnings": ["Updating cache and auto-installing missing dependency: python-apt"], "cache_update_time": 1745827611}\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827461.9609234-1484679-145541156525620/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+[WARNING]: Updating cache and auto-installing missing dependency: python-apt
+changed: [10.13.0.81] => {
+    "cache_update_time": 1745827611,
+    "cache_updated": true,
+    "changed": true,
+    "invocation": {
+        "module_args": {
+            "allow_unauthenticated": false,
+            "autoclean": false,
+            "autoremove": false,
+            "cache_valid_time": 0,
+            "deb": null,
+            "default_release": null,
+            "dpkg_options": "force-confdef,force-confold",
+            "force": false,
+            "force_apt_get": false,
+            "install_recommends": null,
+            "only_upgrade": false,
+            "package": null,
+            "policy_rc_d": null,
+            "purge": false,
+            "state": "present",
+            "update_cache": true,
+            "update_cache_retries": 5,
+            "update_cache_retry_max_delay": 12,
+            "upgrade": null
+        }
+    }
+}
+
+TASK [Check for running dpkg or apt processes before installing python3-apt] *********************************************
+task path: /etc/ansible/playbook/os_upgrade_an11.yml:201
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
+<10.13.0.81> (0, b'/home/linuxadmin\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740 `" && echo ansible-tmp-1745827492.3095505-1484720-15701016230740="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740 `" ) && sleep 0'"'"''
+<10.13.0.81> (0, b'ansible-tmp-1745827492.3095505-1484720-15701016230740=/home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740\n', b'')
+Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
+<10.13.0.81> PUT /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp_5wba4m1 TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/AnsiballZ_command.py
+<10.13.0.81> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f '[10.13.0.81]'
+<10.13.0.81> (0, b'sftp> put /root/.ansible/tmp/ansible-local-1484345vyu5z4vv/tmp_5wba4m1 /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/AnsiballZ_command.py\n', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/AnsiballZ_command.py && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f -tt 10.13.0.81 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-icbnsnqtxdmyqyfivvstygxutcxovlyk ; /usr/bin/python /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+Escalation succeeded
+<10.13.0.81> (127, b'/bin/sh: 1: /usr/bin/python: not found\r\n', b'Shared connection to 10.13.0.81 closed.\r\n')
+<10.13.0.81> Failed to connect to the host via ssh: Shared connection to 10.13.0.81 closed.
+<10.13.0.81> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
+<10.13.0.81> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/9de2805e0f 10.13.0.81 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1745827492.3095505-1484720-15701016230740/ > /dev/null 2>&1 && sleep 0'"'"''
+<10.13.0.81> (0, b'', b'')
+fatal: [10.13.0.81]: FAILED! => {
+    "changed": false,
+    "module_stderr": "Shared connection to 10.13.0.81 closed.\r\n",
+    "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n",
+    "msg": "The module failed to execute correctly, you probably need to set the interpreter.\nSee stdout/stderr for the exact error",
+    "rc": 127
+}
+
+PLAY RECAP ***************************************************************************************************************
+10.13.0.81                 : ok=20   changed=6    unreachable=0    failed=1    skipped=5    rescued=0    ignored=1
