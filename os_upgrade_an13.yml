@@ -1,0 +1,225 @@
+---
+- name: Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04
+  hosts: all
+  become: yes
+  vars:
+    repo_url: "http://10.13.0.88:8080/ubuntu"
+    reboot_timeout: 1800  # 30 minutes in seconds
+    upgrade_timeout: 7200 # 2 hours for upgrades
+    lock_files:
+      - /var/lib/dpkg/lock-frontend
+      - /var/lib/apt/lists/lock
+      - /var/cache/apt/archives/lock
+
+  tasks:
+    # Initial system preparation
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    - name: Check if reboot is required
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+        connect_timeout: 60
+        post_reboot_delay: 60
+      when: reboot_required.stat.exists
+      register: initial_reboot
+      changed_when: reboot_required.stat.exists
+
+    # Preconfiguration for non-interactive upgrades
+    - name: Configure debconf for non-interactive mode
+      ansible.builtin.shell: |
+        echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
+        echo "debconf debconf/priority select critical" | debconf-set-selections
+        echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
+
+    # LXD removal (known to cause issues)
+    - name: Check if lxd is installed
+      ansible.builtin.command: dpkg -l lxd
+      register: lxd_check
+      changed_when: false
+      failed_when: false
+
+    - name: Remove lxd package if installed
+      ansible.builtin.apt:
+        name: lxd
+        state: absent
+        purge: yes
+      when: lxd_check.rc == 0
+      register: lxd_removed
+
+    - name: Clean up lxd residual files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/lxd
+        - /var/snap/lxd
+      when: lxd_removed.changed or lxd_check.rc == 0
+
+    # Get current OS version
+    - name: Get current OS release
+      ansible.builtin.command: lsb_release -sr
+      register: os_release
+      changed_when: false
+
+    # Common preparation tasks for both upgrades
+    - name: Restrict apt to amd64 architecture
+      ansible.builtin.copy:
+        content: 'APT::Architectures "amd64";'
+        dest: /etc/apt/apt.conf.d/99no-i386
+        mode: '0644'
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Kill running dpkg/apt processes
+      ansible.builtin.shell: |
+        pkill -9 apt || true
+        pkill -9 dpkg || true
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Remove dpkg lock files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop: "{{ lock_files }}"
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    - name: Configure automatic dpkg options
+      ansible.builtin.copy:
+        content: |
+          Dpkg::Options {
+             "--force-confdef";
+             "--force-confold";
+             "--force-unsafe-io";
+          }
+        dest: /etc/apt/apt.conf.d/99force-confold
+        mode: '0644'
+      when: os_release.stdout in ["18.04", "20.04"]
+
+    # Ubuntu 18.04 to 20.04 upgrade path
+    - block:
+        - name: Configure focal sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} focal main universe
+              deb [arch=amd64] {{ repo_url }} focal-updates main universe
+              deb [arch=amd64] {{ repo_url }} focal-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Remove external sources
+          ansible.builtin.file:
+            path: /etc/apt/sources.list.d/{{ item }}
+            state: absent
+          loop:
+            - microsoft.list
+            - bionic.list
+
+        - name: Update package cache
+          ansible.builtin.apt:
+            update_cache: yes
+            cache_valid_time: 3600
+
+        - name: Full system upgrade
+          ansible.builtin.apt:
+            upgrade: dist
+            autoremove: yes
+            autoclean: yes
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+
+        - name: Install update-manager-core
+          ansible.builtin.apt:
+            name: update-manager-core
+            state: present
+
+        - name: Perform release upgrade to 20.04
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade -y -f DistUpgradeViewNonInteractive -m server
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            DEBIAN_PRIORITY: critical
+          async: "{{ upgrade_timeout }}"
+          poll: 0
+          register: release_upgrade_20_04
+          changed_when: "'System upgrade is complete' in release_upgrade_20_04.stdout"
+
+        - name: Reboot after 20.04 upgrade
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+            connect_timeout: 60
+            post_reboot_delay: 60
+
+      when: os_release.stdout == "18.04"
+
+    # Ubuntu 20.04 to 22.04 upgrade path
+    - block:
+        - name: Configure jammy sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} jammy main universe
+              deb [arch=amd64] {{ repo_url }} jammy-updates main universe
+              deb [arch=amd64] {{ repo_url }} jammy-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Update package cache
+          ansible.builtin.apt:
+            update_cache: yes
+            cache_valid_time: 3600
+
+        - name: Full system upgrade
+          ansible.builtin.apt:
+            upgrade: dist
+            autoremove: yes
+            autoclean: yes
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+
+        - name: Perform release upgrade to 22.04
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade -y -f DistUpgradeViewNonInteractive -m server
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            DEBIAN_PRIORITY: critical
+          async: "{{ upgrade_timeout }}"
+          poll: 0
+          register: release_upgrade_22_04
+          changed_when: "'System upgrade is complete' in release_upgrade_22_04.stdout"
+
+        - name: Reboot after 22.04 upgrade
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+            connect_timeout: 60
+            post_reboot_delay: 60
+
+      when: os_release.stdout == "20.04"
+
+    # Post-upgrade verification and cleanup
+    - name: Verify final OS version
+      ansible.builtin.command: lsb_release -a
+      register: final_os_release
+      changed_when: false
+
+    - name: Clean up obsolete packages
+      ansible.builtin.apt:
+        autoremove: yes
+        purge: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: Check upgrade success
+      ansible.builtin.assert:
+        that:
+          - "'22.04' in final_os_release.stdout"
+        fail_msg: "Upgrade to Ubuntu 22.04 failed"
+        success_msg: "Successfully upgraded to Ubuntu 22.04"
+      when: os_release.stdout in ["18.04", "20.04"]
