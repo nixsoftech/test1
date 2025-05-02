@@ -1,21 +1,163 @@
-- name: Install required Python APT library
-  block:
-    - name: Ensure APT cache is updated
-      ansible.builtin.command: apt-get update
-      register: apt_update
-      until: apt_update.rc == 0
-      retries: 5
-      delay: 10
+---
+- name: Upgrade Ubuntu with LXD Removal
+  hosts: all
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    repo_url: "http://10.13.0.88:8080/ubuntu"
+    reboot_timeout: 1800  # 30 minutes
+    upgrade_timeout: 7200 # 2 hours
+
+  tasks:
+    # ========== INITIAL SYSTEM PREPARATION ==========
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    # ========== LXD REMOVAL ==========
+    - name: Check LXD installation
+      ansible.builtin.shell: |
+        dpkg -l lxd || snap list lxd || true
+      register: lxd_check
+      changed_when: false
+
+    - name: Remove LXD (APT)
+      ansible.builtin.apt:
+        name: lxd
+        state: absent
+        purge: yes
+      when: "'lxd' in lxd_check.stdout"
+      register: apt_lxd_removed
+
+    - name: Remove LXD (Snap)
+      ansible.builtin.shell: |
+        snap remove --purge lxd
+      when: "'lxd' in lxd_check.stdout"
+      register: snap_lxd_removed
       ignore_errors: yes
 
-    - name: Install python3-apt
-      ansible.builtin.apt:
-        name: python3-apt
-        state: present
-        update_cache: no  # Already handled by previous task
-      register: install_result
-      until: install_result is succeeded
-      retries: 3
-      delay: 15
+    - name: Clean LXD files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/lxd
+        - /var/snap/lxd
+        - /etc/lxc
+      when: apt_lxd_removed.changed or snap_lxd_removed.changed
 
-  when: ansible_distribution == 'Ubuntu'
+    # ========== SYSTEM CHECKS ==========
+    - name: Check Ubuntu version
+      ansible.builtin.command: lsb_release -sr
+      register: ubuntu_version
+      changed_when: false
+
+    - name: Check for desktop
+      ansible.builtin.stat:
+        path: /usr/bin/startx
+      register: desktop_check
+
+    # ========== UPGRADE CONFIGURATION ==========
+    - name: Configure release upgrades
+      ansible.builtin.copy:
+        content: |
+          [DEFAULT]
+          Prompt=lts
+        dest: /etc/update-manager/release-upgrades
+        mode: '0644'
+
+    - name: Configure dpkg options
+      ansible.builtin.copy:
+        content: |
+          Dpkg::Options {
+             "--force-confdef";
+             "--force-confold";
+          }
+        dest: /etc/apt/apt.conf.d/99dpkg-options
+        mode: '0644'
+
+    # ========== 18.04 → 20.04 UPGRADE ==========
+    - block:
+        - name: Configure focal sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} focal main universe
+              deb [arch=amd64] {{ repo_url }} focal-updates main universe
+              deb [arch=amd64] {{ repo_url }} focal-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Run release upgrade
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade \
+              -f DistUpgradeViewNonInteractive \
+              --frontend=NonInteractive
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            UCF_FORCE_CONFFNEW: 1
+          async: "{{ upgrade_timeout }}"
+          poll: 15
+          register: upgrade_result
+          changed_when: 
+            - upgrade_result.rc == 0
+            - "'System upgrade is complete' in upgrade_result.stdout"
+
+        - name: Reboot after upgrade
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+
+      when: ubuntu_version.stdout == "18.04"
+
+    # ========== 20.04 → 22.04 UPGRADE ==========
+    - block:
+        - name: Configure jammy sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} jammy main universe
+              deb [arch=amd64] {{ repo_url }} jammy-updates main universe
+              deb [arch=amd64] {{ repo_url }} jammy-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Run release upgrade
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade \
+              -y \
+              -f DistUpgradeViewNonInteractive
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            UCF_FORCE_CONFFNEW: 1
+          async: "{{ upgrade_timeout }}"
+          poll: 15
+          register: upgrade_result
+          changed_when: 
+            - upgrade_result.rc == 0
+            - "'System upgrade is complete' in upgrade_result.stdout"
+
+        - name: Reboot after upgrade
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+
+      when: ubuntu_version.stdout == "20.04"
+
+    # ========== POST-UPGRADE CHECKS ==========
+    - name: Verify OS version
+      ansible.builtin.command: lsb_release -a
+      register: final_version
+      changed_when: false
+
+    - name: Check desktop components
+      ansible.builtin.shell: |
+        systemctl status gdm3 || systemctl status lightdm || true
+      when: desktop_check.stat.exists
+      register: desktop_status
+      changed_when: false
+
+    - name: Final report
+      ansible.builtin.debug:
+        msg: |
+          Upgrade completed to {{ final_version.stdout }}
+          Desktop status: {% if desktop_check.stat.exists %}{{ desktop_status.stdout }}{% else %}No desktop installed{% endif %}
