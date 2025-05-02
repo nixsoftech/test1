@@ -6,12 +6,44 @@
     ansible_python_interpreter: /usr/bin/python3
     repo_url: "http://10.13.0.88:8080/ubuntu"
     reboot_timeout: 1800  # 30 minutes
-    upgrade_timeout: 14400 # 4 hours
+    upgrade_timeout: 14400  # 4 hours
 
   tasks:
     # ========== INITIAL SYSTEM PREPARATION ==========
     - name: Gather facts
       ansible.builtin.setup:
+
+    # ========== VALIDATE REPOSITORY ==========
+    - name: Check repository accessibility
+      ansible.builtin.uri:
+        url: "{{ repo_url }}"
+        method: HEAD
+        status_code: 200
+      register: repo_check
+      ignore_errors: yes
+
+    - name: Fail if repository is inaccessible
+      ansible.builtin.fail:
+        msg: "Repository {{ repo_url }} is inaccessible. Check network or server status."
+      when: repo_check.status != 200
+
+    - name: Clean APT cache if corrupted
+      ansible.builtin.command: apt clean
+      ignore_errors: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Remove stale APT lists
+      ansible.builtin.file:
+        path: /var/lib/apt/lists
+        state: absent
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Recreate APT lists directory
+      ansible.builtin.file:
+        path: /var/lib/apt/lists
+        state: directory
+        mode: '0755'
+      when: ansible_distribution == "Ubuntu"
 
     # ========== LXD REMOVAL ==========
     - name: Remove LXD components
@@ -53,6 +85,29 @@
         fix_broken: yes
       environment:
         DEBIAN_FRONTEND: noninteractive
+      register: apt_fix
+      ignore_errors: yes
+
+    - name: Log APT fix issues
+      ansible.builtin.debug:
+        msg: "APT fix failed: {{ apt_fix.msg | default('Unknown error') }}"
+      when: apt_fix.failed | default(false)
+
+    # ========== INSTALL ESSENTIAL UPGRADE DEPENDENCIES ==========
+    - name: Install expect package
+      ansible.builtin.apt:
+        name: expect
+        state: present
+        update_cache: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      register: apt_expect
+      ignore_errors: yes
+
+    - name: Log expect install issues
+      ansible.builtin.debug:
+        msg: "Expect install failed: {{ apt_expect.msg | default('Unknown error') }}"
+      when: apt_expect.failed | default(false)
 
     - name: Install essential upgrade dependencies
       ansible.builtin.apt:
@@ -61,6 +116,41 @@
           - ubuntu-release-upgrader-core
           - update-manager-core
         state: present
+        update_cache: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      register: apt_install
+      ignore_errors: yes
+
+    - name: Log APT install issues
+      ansible.builtin.debug:
+        msg: "APT install failed: {{ apt_install.msg | default('Unknown error') }}"
+      when: apt_install.failed | default(false)
+
+    - name: Fail if dependencies could not be installed
+      ansible.builtin.fail:
+        msg: "Failed to install essential upgrade dependencies. Check APT configuration and repository."
+      when: apt_install.failed | default(false) or apt_expect.failed | default(false)
+
+    # ========== DISABLE THIRD-PARTY REPOSITORIES ==========
+    - name: Disable third-party repositories
+      ansible.builtin.shell: |
+        find /etc/apt/sources.list.d/ -type f -name "*.list" -exec mv {} {}.disabled \;
+      args:
+        executable: /bin/bash
+      ignore_errors: yes
+
+    # ========== PRECONFIGURE DEBCONF ==========
+    - name: Preconfigure debconf to avoid prompts
+      ansible.builtin.debconf:
+        question: "{{ item.question }}"
+        vtype: "{{ item.vtype }}"
+        value: "{{ item.value }}"
+      loop:
+        - { question: 'grub-pc/grub2/force_bad_path', vtype: 'boolean', value: 'true' }
+        - { question: 'postfix/main_mailer_type', vtype: 'string', value: 'No configuration' }
+        - { question: 'grub-pc/grub2/update_grub', vtype: 'boolean', value: 'false' }
+      ignore_errors: yes
 
     # ========== RELEASE UPGRADE CONFIGURATION ==========
     - name: Configure release upgrades policy
@@ -84,6 +174,44 @@
 
     # ========== 18.04 → 20.04 UPGRADE PATH ==========
     - block:
+        - name: Update package cache
+          ansible.builtin.apt:
+            update_cache: yes
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+          register: apt_update
+          ignore_errors: yes
+
+        - name: Log APT update issues
+          ansible.builtin.debug:
+            msg: "APT update failed: {{ apt_update.msg | default('Unknown error') }}"
+          when: apt_update.failed | default(false)
+
+        - name: Upgrade all packages
+          ansible.builtin.apt:
+            upgrade: dist
+            force_apt_get: yes
+            dpkg_options: 'force-confdef,force-confold,force-overwrite'
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+          register: apt_upgrade
+          ignore_errors: yes
+
+        - name: Log APT upgrade issues
+          ansible.builtin.debug:
+            msg: "APT upgrade failed: {{ apt_upgrade.msg | default('Unknown error') }}"
+          when: apt_upgrade.failed | default(false)
+
+        - name: Check if reboot is required
+          ansible.builtin.stat:
+            path: /var/run/reboot-required
+          register: reboot_required
+
+        - name: Reboot if required
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+          when: reboot_required.stat.exists or apt_upgrade.changed
+
         - name: Configure focal sources
           ansible.builtin.copy:
             content: |
@@ -92,26 +220,34 @@
               deb [arch=amd64] {{ repo_url }} focal-security main universe
             dest: /etc/apt/sources.list
 
+        - name: Update package cache after source change
+          ansible.builtin.apt:
+            update_cache: yes
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+          register: apt_update_post_sources
+          ignore_errors: yes
+
+        - name: Log APT update issues after source change
+          ansible.builtin.debug:
+            msg: "APT update failed: {{ apt_update_post_sources.msg | default('Unknown error') }}"
+          when: apt_update_post_sources.failed | default(false)
+
         - name: Run release upgrade (18.04→20.04)
           block:
             - name: Execute upgrade
-              ansible.builtin.shell: |
-                set -o pipefail
-                unset XDG_RUNTIME_DIR
-                yes '' | \
-                /usr/lib/python3/dist-packages/DistUpgrade/do-release-upgrade \
-                  -f DistUpgradeViewNonInteractive \
-                  --frontend=NonInteractive \
-                  --mode=server \
-                  --datadir=/tmp/upgrade
-              args:
-                executable: /bin/bash
+              ansible.builtin.expect:
+                command: do-release-upgrade -f DistUpgradeViewNonInteractive --mode=server
+                chdir: /tmp
+                responses:
+                  ".*": "\n"  # Respond with Enter to any prompt
+                timeout: "{{ upgrade_timeout }}"
               environment:
                 DEBIAN_FRONTEND: noninteractive
                 UCF_FORCE_CONFFNEW: 1
-              async: "{{ upgrade_timeout }}"
-              poll: 30
               register: upgrade_result
+              changed_when: upgrade_result.rc == 0
+              failed_when: upgrade_result.rc != 0 and 'System upgrade is complete' not in upgrade_result.stdout
 
             - name: Verify upgrade success
               ansible.builtin.fail:
@@ -133,6 +269,44 @@
 
     # ========== 20.04 → 22.04 UPGRADE PATH ==========
     - block:
+        - name: Update package cache
+          ansible.builtin.apt:
+            update_cache: yes
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+          register: apt_update
+          ignore_errors: yes
+
+        - name: Log APT update issues
+          ansible.builtin.debug:
+            msg: "APT update failed: {{ apt_update.msg | default('Unknown error') }}"
+          when: apt_update.failed | default(false)
+
+        - name: Upgrade all packages
+          ansible.builtin.apt:
+            upgrade: dist
+            force_apt_get: yes
+            dpkg_options: 'force-confdef,force-confold,force-overwrite'
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+          register: apt_upgrade
+          ignore_errors: yes
+
+        - name: Log APT upgrade issues
+          ansible.builtin.debug:
+            msg: "APT upgrade failed: {{ apt_upgrade.msg | default('Unknown error') }}"
+          when: apt_upgrade.failed | default(false)
+
+        - name: Check if reboot is required
+          ansible.builtin.stat:
+            path: /var/run/reboot-required
+          register: reboot_required
+
+        - name: Reboot if required
+          ansible.builtin.reboot:
+            reboot_timeout: "{{ reboot_timeout }}"
+          when: reboot_required.stat.exists or apt_upgrade.changed
+
         - name: Configure jammy sources
           ansible.builtin.copy:
             content: |
@@ -141,24 +315,46 @@
               deb [arch=amd64] {{ repo_url }} jammy-security main universe
             dest: /etc/apt/sources.list
 
-        - name: Run release upgrade (20.04→22.04)
-          ansible.builtin.shell: |
-            set -o pipefail
-            yes '' | do-release-upgrade \
-              -y \
-              -f DistUpgradeViewNonInteractive \
-              --allow-third-party
-          args:
-            executable: /bin/bash
+        - name: Update package cache after source change
+          ansible.builtin.apt:
+            update_cache: yes
           environment:
             DEBIAN_FRONTEND: noninteractive
-            UCF_FORCE_CONFFNEW: 1
-          async: "{{ upgrade_timeout }}"
-          poll: 15
-          register: upgrade_result
-          changed_when: 
-            - upgrade_result.rc == 0
-            - "'System upgrade is complete' in upgrade_result.stdout"
+          register: apt_update_post_sources
+          ignore_errors: yes
+
+        - name: Log APT update issues after source change
+          ansible.builtin.debug:
+            msg: "APT update failed: {{ apt_update_post_sources.msg | default('Unknown error') }}"
+          when: apt_update_post_sources.failed | default(false)
+
+        - name: Run release upgrade (20.04→22.04)
+          block:
+            - name: Execute upgrade
+              ansible.builtin.expect:
+                command: do-release-upgrade -f DistUpgradeViewNonInteractive --mode=server
+                chdir: /tmp
+                responses:
+                  ".*": "\n"  # Respond with Enter to any prompt
+                timeout: "{{ upgrade_timeout }}"
+              environment:
+                DEBIAN_FRONTEND: noninteractive
+                UCF_FORCE_CONFFNEW: 1
+              register: upgrade_result
+              changed_when: upgrade_result.rc == 0
+              failed_when: upgrade_result.rc != 0 and 'System upgrade is complete' not in upgrade_result.stdout
+
+            - name: Verify upgrade success
+              ansible.builtin.fail:
+                msg: "Upgrade failed. Check /var/log/dist-upgrade/main.log"
+              when: "'System upgrade is complete' not in upgrade_result.stdout"
+
+          rescue:
+            - name: Collect failure logs
+              ansible.builtin.fetch:
+                src: "/var/log/dist-upgrade/main.log"
+                dest: "./logs/{{ inventory_hostname }}-upgrade-failure.log"
+                flat: yes
 
         - name: Reboot after upgrade
           ansible.builtin.reboot:
