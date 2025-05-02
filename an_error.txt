@@ -1,10 +1,37 @@
-ansible-playbook -i /etc/ansible/hosts os_upgrade_an1.yml -v
+ansible-playbook -i /etc/ansible/hosts os_upgrade_an14.yml -v
 Using /etc/ansible/ansible.cfg as config file
 
-PLAY [Upgrade Ubuntu from 18.04 to 20.04 and then to 22.04] **************************************************************
+PLAY [Upgrade Ubuntu with i386 preservation] *****************************************************************************
 
 TASK [Gathering Facts] ***************************************************************************************************
-fatal: [10.13.0.81]: FAILED! => {"msg": "Missing sudo password"}
+ok: [10.13.0.87]
+
+TASK [Gather facts] ******************************************************************************************************
+ok: [10.13.0.87]
+
+TASK [Check if reboot is needed] *****************************************************************************************
+ok: [10.13.0.87] => {"changed": false, "stat": {"exists": false}}
+
+TASK [Initial reboot if required] ****************************************************************************************
+skipping: [10.13.0.87] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [Pin existing i386 packages] ****************************************************************************************
+changed: [10.13.0.87] => {"changed": true, "checksum": "8527232c6f81b02c177d0c6c5094352750d0a539", "dest": "/etc/apt/preferences.d/99hold-i386", "gid": 0, "group": "root", "md5sum": "6e7e081c0dd62d2b0d3d1cd9f19b3fff", "mode": "0644", "owner": "root", "size": 50, "src": "/home/linuxadmin/.ansible/tmp/ansible-tmp-1746170181.768422-115511-265224234227576/source", "state": "file", "uid": 0}
+
+TASK [Restrict new i386 installs] ****************************************************************************************
+changed: [10.13.0.87] => {"changed": true, "checksum": "a42d6f4260d59d357d5d446eec7dcb6dc9fea41f", "dest": "/etc/apt/apt.conf.d/99no-new-i386", "gid": 0, "group": "root", "md5sum": "fbff6d2a40d6df5e522cc9389d0380e9", "mode": "0644", "owner": "root", "size": 72, "src": "/home/linuxadmin/.ansible/tmp/ansible-tmp-1746170182.2415354-115527-107700614367304/source", "state": "file", "uid": 0}
+
+TASK [Configure dpkg options] ********************************************************************************************
+changed: [10.13.0.87] => {"changed": true, "checksum": "49e0b31a80708f1e1e47052b27b0b8bcb957d720", "dest": "/etc/apt/apt.conf.d/99dpkg-options", "gid": 0, "group": "root", "md5sum": "4d38988a0be442b7af29e57ee08d993f", "mode": "0644", "owner": "root", "size": 62, "src": "/home/linuxadmin/.ansible/tmp/ansible-tmp-1746170182.6523414-115543-50535946545855/source", "state": "file", "uid": 0}
+
+TASK [Kill problematic processes] ****************************************************************************************
+changed: [10.13.0.87] => {"changed": true, "cmd": "pkill -9 apt || true\npkill -9 dpkg || true\n", "delta": "0:00:00.007545", "end": "2025-05-02 12:48:32.361838", "rc": 0, "start": "2025-05-02 12:48:32.354293", "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [Configure sources for 20.04] ***************************************************************************************
+changed: [10.13.0.87] => {"changed": true, "checksum": "3473a629a12004ecb90d953d6c32ef83e7c5ecce", "dest": "/etc/apt/sources.list", "gid": 0, "group": "root", "md5sum": "1d5e36b812477f497a285d3144070b38", "mode": "0644", "owner": "root", "size": 218, "src": "/home/linuxadmin/.ansible/tmp/ansible-tmp-1746170183.3758526-115568-88275198150181/source", "state": "file", "uid": 0}
+
+TASK [Run release upgrade (18.04→20.04)] *********************************************************************************
+fatal: [10.13.0.87]: FAILED! => {"msg": "The conditional check ''System upgrade is complete' in upgrade_result.stdout' failed. The error was: error while evaluating conditional ('System upgrade is complete' in upgrade_result.stdout): 'dict object' has no attribute 'stdout'"}
 
 PLAY RECAP ***************************************************************************************************************
-10.13.0.81                 : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+10.13.0.87                 : ok=8    changed=5    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0
