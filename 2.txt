@@ -1,27 +1,21 @@
----
-- name: Upgrade Ubuntu (Mixed Server/Desktop Environments)
-  hosts: all
-  become: yes
-  vars:
-    ansible_python_interpreter: /usr/bin/python3  # Add this line
-    repo_url: "http://10.13.0.88:8080/ubuntu"
-    reboot_timeout: 1800
-    upgrade_timeout: 7200
+- name: Install required Python APT library
+  block:
+    - name: Ensure APT cache is updated
+      ansible.builtin.command: apt-get update
+      register: apt_update
+      until: apt_update.rc == 0
+      retries: 5
+      delay: 10
+      ignore_errors: yes
 
-  tasks:
-    # ... previous tasks ...
-
-    # ========== SYSTEM SANITY CHECKS ==========
-    - name: Install required Python APT library  # Add this new task
+    - name: Install python3-apt
       ansible.builtin.apt:
         name: python3-apt
         state: present
-        update_cache: yes
-      when: ansible_distribution == 'Ubuntu'
+        update_cache: no  # Already handled by previous task
+      register: install_result
+      until: install_result is succeeded
+      retries: 3
+      delay: 15
 
-    - name: Check for desktop installation
-      ansible.builtin.package_facts:
-        manager: auto
-      register: pkg_facts
-
-    # ... rest of the playbook ...
+  when: ansible_distribution == 'Ubuntu'
