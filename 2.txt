@@ -1,163 +1,49 @@
----
-- name: Upgrade Ubuntu with LXD Removal
-  hosts: all
-  become: yes
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-    repo_url: "http://10.13.0.88:8080/ubuntu"
-    reboot_timeout: 1800  # 30 minutes
-    upgrade_timeout: 7200 # 2 hours
+- block:
+    - name: Configure focal sources
+      ansible.builtin.copy:
+        content: |
+          deb [arch=amd64] {{ repo_url }} focal main universe
+          deb [arch=amd64] {{ repo_url }} focal-updates main universe
+          deb [arch=amd64] {{ repo_url }} focal-security main universe
+        dest: /etc/apt/sources.list
 
-  tasks:
-    # ========== INITIAL SYSTEM PREPARATION ==========
-    - name: Gather facts
-      ansible.builtin.setup:
-
-    # ========== LXD REMOVAL ==========
-    - name: Check LXD installation
-      ansible.builtin.shell: |
-        dpkg -l lxd || snap list lxd || true
-      register: lxd_check
-      changed_when: false
-
-    - name: Remove LXD (APT)
+    # Add these new tasks
+    - name: Update existing packages
       ansible.builtin.apt:
-        name: lxd
-        state: absent
-        purge: yes
-      when: "'lxd' in lxd_check.stdout"
-      register: apt_lxd_removed
+        update_cache: yes
+        upgrade: dist
+        autoclean: yes
+        autoremove: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
 
-    - name: Remove LXD (Snap)
-      ansible.builtin.shell: |
-        snap remove --purge lxd
-      when: "'lxd' in lxd_check.stdout"
-      register: snap_lxd_removed
-      ignore_errors: yes
-
-    - name: Clean LXD files
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - /var/lib/lxd
-        - /var/snap/lxd
-        - /etc/lxc
-      when: apt_lxd_removed.changed or snap_lxd_removed.changed
-
-    # ========== SYSTEM CHECKS ==========
-    - name: Check Ubuntu version
-      ansible.builtin.command: lsb_release -sr
-      register: ubuntu_version
-      changed_when: false
-
-    - name: Check for desktop
+    - name: Check if reboot needed after updates
       ansible.builtin.stat:
-        path: /usr/bin/startx
-      register: desktop_check
+        path: /var/run/reboot-required
+      register: pre_upgrade_reboot
 
-    # ========== UPGRADE CONFIGURATION ==========
-    - name: Configure release upgrades
-      ansible.builtin.copy:
-        content: |
-          [DEFAULT]
-          Prompt=lts
-        dest: /etc/update-manager/release-upgrades
-        mode: '0644'
+    - name: Reboot if required before upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+      when: pre_upgrade_reboot.stat.exists
 
-    - name: Configure dpkg options
-      ansible.builtin.copy:
-        content: |
-          Dpkg::Options {
-             "--force-confdef";
-             "--force-confold";
-          }
-        dest: /etc/apt/apt.conf.d/99dpkg-options
-        mode: '0644'
-
-    # ========== 18.04 → 20.04 UPGRADE ==========
-    - block:
-        - name: Configure focal sources
-          ansible.builtin.copy:
-            content: |
-              deb [arch=amd64] {{ repo_url }} focal main universe
-              deb [arch=amd64] {{ repo_url }} focal-updates main universe
-              deb [arch=amd64] {{ repo_url }} focal-security main universe
-            dest: /etc/apt/sources.list
-
-        - name: Run release upgrade
-          ansible.builtin.shell: |
-            set -o pipefail
-            yes '' | do-release-upgrade \
-              -f DistUpgradeViewNonInteractive \
-              --frontend=NonInteractive
-          args:
-            executable: /bin/bash
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-            UCF_FORCE_CONFFNEW: 1
-          async: "{{ upgrade_timeout }}"
-          poll: 15
-          register: upgrade_result
-          changed_when: 
-            - upgrade_result.rc == 0
-            - "'System upgrade is complete' in upgrade_result.stdout"
-
-        - name: Reboot after upgrade
-          ansible.builtin.reboot:
-            reboot_timeout: "{{ reboot_timeout }}"
-
-      when: ubuntu_version.stdout == "18.04"
-
-    # ========== 20.04 → 22.04 UPGRADE ==========
-    - block:
-        - name: Configure jammy sources
-          ansible.builtin.copy:
-            content: |
-              deb [arch=amd64] {{ repo_url }} jammy main universe
-              deb [arch=amd64] {{ repo_url }} jammy-updates main universe
-              deb [arch=amd64] {{ repo_url }} jammy-security main universe
-            dest: /etc/apt/sources.list
-
-        - name: Run release upgrade
-          ansible.builtin.shell: |
-            set -o pipefail
-            yes '' | do-release-upgrade \
-              -y \
-              -f DistUpgradeViewNonInteractive
-          args:
-            executable: /bin/bash
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-            UCF_FORCE_CONFFNEW: 1
-          async: "{{ upgrade_timeout }}"
-          poll: 15
-          register: upgrade_result
-          changed_when: 
-            - upgrade_result.rc == 0
-            - "'System upgrade is complete' in upgrade_result.stdout"
-
-        - name: Reboot after upgrade
-          ansible.builtin.reboot:
-            reboot_timeout: "{{ reboot_timeout }}"
-
-      when: ubuntu_version.stdout == "20.04"
-
-    # ========== POST-UPGRADE CHECKS ==========
-    - name: Verify OS version
-      ansible.builtin.command: lsb_release -a
-      register: final_version
-      changed_when: false
-
-    - name: Check desktop components
+    # Existing upgrade task remains
+    - name: Run release upgrade
       ansible.builtin.shell: |
-        systemctl status gdm3 || systemctl status lightdm || true
-      when: desktop_check.stat.exists
-      register: desktop_status
-      changed_when: false
+        set -o pipefail
+        yes '' | do-release-upgrade \
+          -f DistUpgradeViewNonInteractive \
+          --frontend=NonInteractive
+      args:
+        executable: /bin/bash
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        UCF_FORCE_CONFFNEW: 1
+      async: "{{ upgrade_timeout }}"
+      poll: 15
+      register: upgrade_result
+      changed_when: 
+        - upgrade_result.rc == 0
+        - "'System upgrade is complete' in upgrade_result.stdout"
 
-    - name: Final report
-      ansible.builtin.debug:
-        msg: |
-          Upgrade completed to {{ final_version.stdout }}
-          Desktop status: {% if desktop_check.stat.exists %}{{ desktop_status.stdout }}{% else %}No desktop installed{% endif %}
+  when: ubuntu_version.stdout == "18.04"
