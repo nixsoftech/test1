@@ -1,8 +1,8 @@
 TASK [Configure focal sources] *******************************************************************************************
 ok: [10.13.0.87] => {"changed": false, "checksum": "3473a629a12004ecb90d953d6c32ef83e7c5ecce", "dest": "/etc/apt/sources.list", "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/apt/sources.list", "size": 218, "state": "file", "uid": 0}
 
-TASK [Run release upgrade (18.04→20.04)] *********************************************************************************
-fatal: [10.13.0.87]: FAILED! => {"ansible_job_id": "483160228210.20306", "changed": false, "cmd": "set -o pipefail\nyes '' | do-release-upgrade  -f DistUpgradeViewNonInteractive  --frontend=NonInteractive  --allow-third-party\n", "delta": "0:00:00.166637", "end": "2025-05-02 13:54:33.048971", "finished": 1, "msg": "non-zero return code", "rc": 1, "start": "2025-05-02 13:54:32.882334", "stderr": "", "stderr_lines": [], "stdout": "Checking for a new Ubuntu release\nIn /etc/update-manager/release-upgrades Prompt \nis set to never so upgrading is not possible.", "stdout_lines": ["Checking for a new Ubuntu release", "In /etc/update-manager/release-upgrades Prompt ", "is set to never so upgrading is not possible."]}
+TASK [Run release upgrade] ***********************************************************************************************
+fatal: [10.13.0.87]: FAILED! => {"ansible_job_id": "329225238903.22050", "changed": false, "cmd": "set -o pipefail\nyes '' | do-release-upgrade  -f DistUpgradeViewNonInteractive  --frontend=NonInteractive\n", "delta": "0:00:00.634699", "end": "2025-05-02 14:06:52.198892", "finished": 1, "msg": "non-zero return code", "rc": 1, "start": "2025-05-02 14:06:51.564193", "stderr": "", "stderr_lines": [], "stdout": "Checking for a new Ubuntu release\nPlease install all available updates for your release before upgrading.", "stdout_lines": ["Checking for a new Ubuntu release", "Please install all available updates for your release before upgrading."]}
 
 PLAY RECAP ***************************************************************************************************************
-10.13.0.87                 : ok=10   changed=2    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0
+10.13.0.87                 : ok=11   changed=4    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
