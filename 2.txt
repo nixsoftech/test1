@@ -7,13 +7,27 @@
           deb [arch=amd64] {{ repo_url }} focal-security main universe
         dest: /etc/apt/sources.list
 
-    # Add these new tasks
-    - name: Update existing packages
-      ansible.builtin.apt:
-        update_cache: yes
-        upgrade: dist
-        autoclean: yes
-        autoremove: yes
+    # New APT cache handling with retries
+    - name: Force remove apt locks
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/apt/lists/lock
+        - /var/lib/dpkg/lock
+        - /var/cache/apt/archives/lock
+
+    - name: Update package cache (with retries)
+      ansible.builtin.command: apt-get update
+      register: apt_update
+      until: apt_update.rc == 0
+      retries: 5
+      delay: 10
+      ignore_errors: yes
+
+    - name: Full system upgrade
+      ansible.builtin.command: |
+        apt-get dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
       environment:
         DEBIAN_FRONTEND: noninteractive
 
@@ -27,7 +41,7 @@
         reboot_timeout: "{{ reboot_timeout }}"
       when: pre_upgrade_reboot.stat.exists
 
-    # Existing upgrade task remains
+    # Existing upgrade task
     - name: Run release upgrade
       ansible.builtin.shell: |
         set -o pipefail
