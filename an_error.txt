@@ -1,5 +1,2 @@
-TASK [Install essential upgrade dependencies] ****************************************************************************
-fatal: [10.13.0.87]: FAILED! => {"changed": false, "msg": "Failed to update apt cache: unknown reason"}
-
-PLAY RECAP ***************************************************************************************************************
-10.13.0.87                 : ok=5    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+TASK [Fix broken packages] ***********************************************************************************************
+fatal: [10.13.0.87]: FAILED! => {"changed": false, "msg": "Unsupported parameters for (ansible.builtin.apt) module: fix_broken Supported parameters include: allow_unauthenticated, autoclean, autoremove, cache_valid_time, deb, default_release, dpkg_options, force, force_apt_get, install_recommends, only_upgrade, package, policy_rc_d, purge, state, update_cache, update_cache_retries, update_cache_retry_max_delay, upgrade"}
