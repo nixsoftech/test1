@@ -1,53 +1,5 @@
-TASK [Update existing packages] ******************************************************************************************
-task path: /etc/ansible/playbook/os_upgrade_an14.yml:88
-<10.13.0.87> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
-<10.13.0.87> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f 10.13.0.87 '/bin/sh -c '"'"'echo ~linuxadmin && sleep 0'"'"''
-<10.13.0.87> (0, b'/home/linuxadmin\n', b'')
-<10.13.0.87> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
-<10.13.0.87> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f 10.13.0.87 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/linuxadmin/.ansible/tmp `"&& mkdir "` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704 `" && echo ansible-tmp-1746175529.1502976-119767-211397034910704="` echo /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704 `" ) && sleep 0'"'"''
-<10.13.0.87> (0, b'ansible-tmp-1746175529.1502976-119767-211397034910704=/home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704\n', b'')
-Using module file /usr/lib/python3/dist-packages/ansible/modules/apt.py
-<10.13.0.87> PUT /root/.ansible/tmp/ansible-local-119639wi1ctidv/tmpp0rem29r TO /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/AnsiballZ_apt.py
-<10.13.0.87> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f '[10.13.0.87]'
-<10.13.0.87> (0, b'sftp> put /root/.ansible/tmp/ansible-local-119639wi1ctidv/tmpp0rem29r /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/AnsiballZ_apt.py\n', b'')
-<10.13.0.87> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
-<10.13.0.87> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f 10.13.0.87 '/bin/sh -c '"'"'chmod u+x /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/ /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/AnsiballZ_apt.py && sleep 0'"'"''
-<10.13.0.87> (0, b'', b'')
-<10.13.0.87> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
-<10.13.0.87> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f -tt 10.13.0.87 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-gyzcqfquwzkndqxrfgwusbstravjuiyg ; DEBIAN_FRONTEND=noninteractive /usr/bin/python3 /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/AnsiballZ_apt.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
-Escalation succeeded
-<10.13.0.87> (1, b'\r\n{"failed": true, "msg": "Failed to update apt cache: unknown reason", "invocation": {"module_args": {"update_cache": true, "upgrade": "dist", "autoclean": true, "autoremove": true, "state": "present", "update_cache_retries": 5, "update_cache_retry_max_delay": 12, "cache_valid_time": 0, "purge": false, "force": false, "dpkg_options": "force-confdef,force-confold", "only_upgrade": false, "force_apt_get": false, "allow_unauthenticated": false, "package": null, "deb": null, "default_release": null, "install_recommends": null, "policy_rc_d": null}}}\r\n', b'Shared connection to 10.13.0.87 closed.\r\n')
-<10.13.0.87> Failed to connect to the host via ssh: Shared connection to 10.13.0.87 closed.
-<10.13.0.87> ESTABLISH SSH CONNECTION FOR USER: linuxadmin
-<10.13.0.87> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/root/.ssh/id_rsa"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="linuxadmin"' -o ConnectTimeout=10 -o ControlPath=/root/.ansible/cp/2f68619f2f 10.13.0.87 '/bin/sh -c '"'"'rm -f -r /home/linuxadmin/.ansible/tmp/ansible-tmp-1746175529.1502976-119767-211397034910704/ > /dev/null 2>&1 && sleep 0'"'"''
-<10.13.0.87> (0, b'', b'')
-fatal: [10.13.0.87]: FAILED! => {
-    "changed": false,
-    "invocation": {
-        "module_args": {
-            "allow_unauthenticated": false,
-            "autoclean": true,
-            "autoremove": true,
-            "cache_valid_time": 0,
-            "deb": null,
-            "default_release": null,
-            "dpkg_options": "force-confdef,force-confold",
-            "force": false,
-            "force_apt_get": false,
-            "install_recommends": null,
-            "only_upgrade": false,
-            "package": null,
-            "policy_rc_d": null,
-            "purge": false,
-            "state": "present",
-            "update_cache": true,
-            "update_cache_retries": 5,
-            "update_cache_retry_max_delay": 12,
-            "upgrade": "dist"
-        }
-    },
-    "msg": "Failed to update apt cache: unknown reason"
-}
+TASK [Run release upgrade] ***********************************************************************************************
+fatal: [10.13.0.87]: FAILED! => {"ansible_job_id": "678010520641.28752", "changed": false, "cmd": "set -o pipefail\nyes '' | do-release-upgrade  -f DistUpgradeViewNonInteractive  --frontend=NonInteractive\n", "delta": "0:00:03.958372", "end": "2025-05-02 14:29:04.605438", "finished": 1, "msg": "non-zero return code", "rc": 139, "start": "2025-05-02 14:29:00.647066", "stderr": "Unable to init server: Could not connect: Connection refused\nUnable to init server: Could not connect: Connection refused\nUnable to init server: Could not connect: Connection refused\n/bin/bash: line 1: 28762 Broken pipe             yes ''\n     28763 Segmentation fault      (core dumped) | do-release-upgrade -f DistUpgradeViewNonInteractive --frontend=NonInteractive", "stderr_lines": ["Unable to init server: Could not connect: Connection refused", "Unable to init server: Could not connect: Connection refused", "Unable to init server: Could not connect: Connection refused", "/bin/bash: line 1: 28762 Broken pipe             yes ''", "     28763 Segmentation fault      (core dumped) | do-release-upgrade -f DistUpgradeViewNonInteractive --frontend=NonInteractive"], "stdout": "", "stdout_lines": []}
 
 PLAY RECAP ***************************************************************************************************************
-10.13.0.87                 : ok=11   changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+10.13.0.87                 : ok=15   changed=4    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0
