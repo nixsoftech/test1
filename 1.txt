@@ -1,1 +1,180 @@
-hello world 1.
+---
+- name: Upgrade Ubuntu (Mixed Server/Desktop Environments)
+  hosts: all
+  become: yes
+  vars:
+    repo_url: "http://10.13.0.88:8080/ubuntu"
+    reboot_timeout: 1800  # 30 minutes
+    upgrade_timeout: 7200 # 2 hours
+
+  tasks:
+    # ========== INITIAL SYSTEM PREPARATION ==========
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    - name: Check if reboot is needed
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Initial reboot if required
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+      when: reboot_required.stat.exists
+
+    # ========== SYSTEM SANITY CHECKS ==========
+    - name: Verify Ubuntu version
+      ansible.builtin.command: lsb_release -sr
+      register: current_ubuntu_version
+      changed_when: false
+
+    - name: Check for desktop installation
+      ansible.builtin.package_facts:
+        manager: auto
+      register: pkg_facts
+
+    # ========== UPGRADE PREPARATION ==========
+    - name: Configure dpkg options
+      ansible.builtin.copy:
+        content: |
+          Dpkg::Options {
+             "--force-confdef";
+             "--force-confold";
+             "--force-overwrite";
+          }
+        dest: /etc/apt/apt.conf.d/99dpkg-options
+        mode: '0644'
+
+    - name: Clean package state
+      ansible.builtin.apt:
+        autoclean: yes
+        autoremove: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+
+    # ========== 18.04 → 20.04 UPGRADE PATH ==========
+    - block:
+        - name: Configure focal sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} focal main universe
+              deb [arch=amd64] {{ repo_url }} focal-updates main universe
+              deb [arch=amd64] {{ repo_url }} focal-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Run release upgrade (18.04→20.04)
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade \
+              -f DistUpgradeViewNonInteractive \
+              --frontend=NonInteractive \
+              --allow-third-party
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            UCF_FORCE_CONFFNEW: 1
+          async: "{{ upgrade_timeout }}"
+          poll: 15
+          register: upgrade_result
+          changed_when: 
+            - upgrade_result.rc == 0
+            - "'System upgrade is complete' in upgrade_result.stdout"
+
+        - name: Verify 18→20 upgrade success
+          ansible.builtin.fail:
+            msg: "18.04 → 20.04 upgrade failed. Check /var/log/dist-upgrade/main.log"
+          when: 
+            - upgrade_result.rc != 0
+            - "'System upgrade is complete' not in upgrade_result.stdout"
+
+      when: current_ubuntu_version.stdout == "18.04"
+
+    # ========== 20.04 → 22.04 UPGRADE PATH ==========
+    - block:
+        - name: Configure jammy sources
+          ansible.builtin.copy:
+            content: |
+              deb [arch=amd64] {{ repo_url }} jammy main universe
+              deb [arch=amd64] {{ repo_url }} jammy-updates main universe
+              deb [arch=amd64] {{ repo_url }} jammy-security main universe
+            dest: /etc/apt/sources.list
+
+        - name: Run release upgrade (20.04→22.04)
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade \
+              -y \
+              -f DistUpgradeViewNonInteractive \
+              --allow-third-party
+          args:
+            executable: /bin/bash
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+            UCF_FORCE_CONFFNEW: 1
+          async: "{{ upgrade_timeout }}"
+          poll: 15
+          register: upgrade_result
+          changed_when: 
+            - upgrade_result.rc == 0
+            - "'System upgrade is complete' in upgrade_result.stdout"
+
+        - name: Verify 20→22 upgrade success
+          ansible.builtin.fail:
+            msg: "20.04 → 22.04 upgrade failed. Check /var/log/dist-upgrade/main.log"
+          when: 
+            - upgrade_result.rc != 0
+            - "'System upgrade is complete' not in upgrade_result.stdout"
+
+      when: current_ubuntu_version.stdout == "20.04"
+
+    # ========== POST-UPGRADE HANDLING ==========
+    - name: Reboot after upgrade
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ reboot_timeout }}"
+      when: 
+        - upgrade_result is defined
+        - upgrade_result.rc == 0
+
+    # ========== DESKTOP-SPECIFIC HANDLING ==========
+    - block:
+        - name: Reinstall desktop components
+          ansible.builtin.apt:
+            name:
+              - ubuntu-desktop
+              - gnome-shell
+              - gdm3
+            state: present
+          when: "'ubuntu-desktop' in pkg_facts.packages"
+
+        - name: Reconfigure display manager
+          ansible.builtin.shell: |
+            if systemctl list-unit-files | grep -q gdm3.service; then
+              dpkg-reconfigure gdm3
+            elif systemctl list-unit-files | grep -q lightdm.service; then
+              dpkg-reconfigure lightdm
+            fi
+          when: "'ubuntu-desktop' in pkg_facts.packages"
+
+        - name: Verify GUI functionality
+          ansible.builtin.command: |
+            systemctl status gdm3 || systemctl status lightdm
+          register: display_manager_status
+          changed_when: false
+          when: "'ubuntu-desktop' in pkg_facts.packages"
+
+      when: "'ubuntu-desktop' in pkg_facts.packages"
+
+    # ========== FINAL VERIFICATION ==========
+    - name: Verify final OS version
+      ansible.builtin.command: lsb_release -a
+      register: final_os_version
+      changed_when: false
+
+    - name: Check upgrade completion
+      ansible.builtin.assert:
+        that:
+          - "'22.04' in final_os_version.stdout"
+        fail_msg: "Upgrade to Ubuntu 22.04 failed"
+        success_msg: "Successfully upgraded to Ubuntu 22.04"
+      when: current_ubuntu_version.stdout in ["18.04", "20.04"]
