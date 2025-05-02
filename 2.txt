@@ -6,7 +6,7 @@
     ansible_python_interpreter: /usr/bin/python3
     repo_url: "http://10.13.0.88:8080/ubuntu"
     reboot_timeout: 1800  # 30 minutes
-    upgrade_timeout: 14400  # 4 hours
+    upgrade_timeout: 14400 # 4 hours
 
   tasks:
     # ========== INITIAL SYSTEM PREPARATION ==========
@@ -61,29 +61,6 @@
           - ubuntu-release-upgrader-core
           - update-manager-core
         state: present
-        update_cache: yes
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-
-    # ========== DISABLE THIRD-PARTY REPOSITORIES ==========
-    - name: Backup and益: Disable third-party repositories
-      ansible.builtin.shell: |
-        find /etc/apt/sources.list.d/ -type f -name "*.list" -exec mv {} {}.disabled \;
-      args:
-        executable: /bin/bash
-      ignore_errors: yes
-
-    # ========== PRECONFIGURE DEBCONF ==========
-    - name: Preconfigure debconf to avoid prompts
-      ansible.builtin.debconf:
-        question: "{{ item.question }}"
-        vtype: "{{ item.vtype }}"
-        value: "{{ item.value }}"
-      loop:
-        - { question: 'grub-pc/grub2/force_bad_path', vtype: 'boolean', value: 'true' }
-        - { question: 'postfix/main_mailer_type', vtype: 'string', value: 'No configuration' }
-        - { question: 'grub-pc/grub2/update_grub', vtype: 'boolean', value: 'false' }
-      ignore_errors: yes
 
     # ========== RELEASE UPGRADE CONFIGURATION ==========
     - name: Configure release upgrades policy
@@ -115,26 +92,26 @@
               deb [arch=amd64] {{ repo_url }} focal-security main universe
             dest: /etc/apt/sources.list
 
-        - name: Update package cache
-          ansible.builtin.apt:
-            update_cache: yes
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-
         - name: Run release upgrade (18.04→20.04)
           block:
             - name: Execute upgrade
-              ansible.builtin.command:
-                cmd: do-release-upgrade -f DistUpgradeViewNonInteractive --mode=server
-                chdir: /tmp
+              ansible.builtin.shell: |
+                set -o pipefail
+                unset XDG_RUNTIME_DIR
+                yes '' | \
+                /usr/lib/python3/dist-packages/DistUpgrade/do-release-upgrade \
+                  -f DistUpgradeViewNonInteractive \
+                  --frontend=NonInteractive \
+                  --mode=server \
+                  --datadir=/tmp/upgrade
+              args:
+                executable: /bin/bash
               environment:
                 DEBIAN_FRONTEND: noninteractive
                 UCF_FORCE_CONFFNEW: 1
               async: "{{ upgrade_timeout }}"
               poll: 30
               register: upgrade_result
-              changed_when: upgrade_result.rc == 0
-              failed_when: upgrade_result.rc != 0 and 'System upgrade is complete' not in upgrade_result.stdout
 
             - name: Verify upgrade success
               ansible.builtin.fail:
@@ -164,24 +141,24 @@
               deb [arch=amd64] {{ repo_url }} jammy-security main universe
             dest: /etc/apt/sources.list
 
-        - name: Update package cache
-          ansible.builtin.apt:
-            update_cache: yes
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-
         - name: Run release upgrade (20.04→22.04)
-          ansible.builtin.command:
-            cmd: do-release-upgrade -f DistUpgradeViewNonInteractive --mode=server
-            chdir: /tmp
+          ansible.builtin.shell: |
+            set -o pipefail
+            yes '' | do-release-upgrade \
+              -y \
+              -f DistUpgradeViewNonInteractive \
+              --allow-third-party
+          args:
+            executable: /bin/bash
           environment:
             DEBIAN_FRONTEND: noninteractive
             UCF_FORCE_CONFFNEW: 1
           async: "{{ upgrade_timeout }}"
-          poll: 30
+          poll: 15
           register: upgrade_result
-          changed_when: upgrade_result.rc == 0
-          failed_when: upgrade_result.rc != 0 and 'System upgrade is complete' not in upgrade_result.stdout
+          changed_when: 
+            - upgrade_result.rc == 0
+            - "'System upgrade is complete' in upgrade_result.stdout"
 
         - name: Reboot after upgrade
           ansible.builtin.reboot:
