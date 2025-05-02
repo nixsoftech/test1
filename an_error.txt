@@ -1,8 +1,11 @@
-TASK [Configure sources for 20.04] ***************************************************************************************
-ok: [10.13.0.87] => {"changed": false, "checksum": "3473a629a12004ecb90d953d6c32ef83e7c5ecce", "dest": "/etc/apt/sources.list", "gid": 0, "group": "root", "mode": "0644", "owner": "root", "path": "/etc/apt/sources.list", "size": 218, "state": "file", "uid": 0}
+TASK [Verify Ubuntu version] *********************************************************************************************
+ok: [10.13.0.87] => {"changed": false, "cmd": ["lsb_release", "-sr"], "delta": "0:00:00.022222", "end": "2025-05-02 13:16:41.262568", "rc": 0, "start": "2025-05-02 13:16:41.240346", "stderr": "", "stderr_lines": [], "stdout": "18.04", "stdout_lines": ["18.04"]}
 
-TASK [Run release upgrade (18.04→20.04)] *********************************************************************************
-fatal: [10.13.0.87]: FAILED! => {"ansible_job_id": "596045000228.14601", "changed": false, "cmd": "set -o pipefail\nprintf '\\n\\ny\\n\\ny\\n' | do-release-upgrade -y  -f DistUpgradeViewNonInteractive  --allow-downgrades  --allow-change-held-packages\n", "delta": "0:00:00.051767", "end": "2025-05-02 13:02:51.976433", "finished": 1, "msg": "non-zero return code", "rc": 2, "start": "2025-05-02 13:02:51.924666", "stderr": "Usage: do-release-upgrade [options]\n\ndo-release-upgrade: error: no such option: -y", "stderr_lines": ["Usage: do-release-upgrade [options]", "", "do-release-upgrade: error: no such option: -y"], "stdout": "", "stdout_lines": []}
+TASK [Check for desktop installation] ************************************************************************************
+[WARNING]: Found "apt" but Failed to import the required Python library (apt) on WS000's Python /usr/bin/python. Please
+read the module documentation and install it in the appropriate location. If the required library is installed, but
+Ansible is using the wrong Python interpreter, please consult the documentation on ansible_python_interpreter
+fatal: [10.13.0.87]: FAILED! => {"changed": false, "msg": "Could not detect a supported package manager from the following list: ['portage', 'pacman', 'rpm', 'pkg', 'apt'], or the required Python library is not installed. Check warnings for details."}
 
 PLAY RECAP ***************************************************************************************************************
-10.13.0.87                 : ok=8    changed=1    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0
+10.13.0.87                 : ok=4    changed=0    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0
